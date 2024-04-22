@@ -1,0 +1,56 @@
+#
+# Copyright (C) 2019-2024 vdaas.org vald team <vald@vdaas.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: "Sync Vald"
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "*/5 * * * *"
+jobs:
+  check-main:
+    uses: ./.github/workflows/_check-main.yaml
+    secrets:
+      CI_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+
+  sync-main:
+    if: ${{ needs.check-main.outputs.NEED_UPDATE == 'true' }}
+    needs:
+      - check-main
+    uses: ./.github/workflows/_sync.yaml
+    secrets:
+      CI_USER: ${{ secrets.DISPATCH_USER }}
+      CI_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  check-version:
+    uses: ./.github/workflows/_check-version.yaml
+    secrets:
+      CI_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+
+  sync-version:
+    needs:
+      - check-version
+    uses: ./.github/workflows/_sync-version.yaml
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJson(needs.check-version.outputs.TAG_DIFF_LIST_JSON_LEN) }}
+      matrix:
+        vald_checkout_src_tag_ref: ${{ fromJson(needs.check-version.outputs.TAG_DIFF_LIST_JSON) }}
+    with:
+      vald_checkout_src_tag_ref: ${{ matrix.vald_checkout_src_tag_ref }}
+    secrets:
+      CI_USER: ${{ secrets.DISPATCH_USER }}
+      CI_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
