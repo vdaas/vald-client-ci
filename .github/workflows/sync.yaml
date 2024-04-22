@@ -18,6 +18,14 @@ on:
   workflow_dispatch:
   # schedule:
   #   - cron: "*/5 * * * *"
+
+  # --------
+  # NOTE: The following events are for verification purposes only.
+  # --------
+  pull_request:
+  push:
+    branches:
+      - "main"
 jobs:
   check-main:
     uses: ./.github/workflows/_check-main.yaml
