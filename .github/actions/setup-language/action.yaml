@@ -38,8 +38,8 @@ runs:
       uses: vdaas/vald-client-ci/.github/actions/setup-node@feat/add-common-workflows
       with:
         node_version: '18'
-    - name: Setup Node environment
-      if: ${{ inputs.client_type == 'java' }}
-      # TODO: change to the following before main merge.
-      # uses: vdaas/vald-client-ci/.github/actions/setup-java@main
-      uses: vdaas/vald-client-ci/.github/actions/setup-java@feat/add-common-workflows
+    # - name: Setup Node environment
+    #   if: ${{ inputs.client_type == 'java' }}
+    #   # TODO: change to the following before main merge.
+    #   # uses: vdaas/vald-client-ci/.github/actions/setup-java@main
+    #   uses: vdaas/vald-client-ci/.github/actions/setup-java@feat/add-common-workflows
