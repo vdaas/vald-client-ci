@@ -38,7 +38,7 @@ A repository of workflows and actions for Vald client CI configuration.
 
 - [Sync](./.github/workflows/sync.yaml)
 
-```
+```yaml
 name: "Sync Vald"
 on:
   workflow_dispatch:
@@ -57,7 +57,7 @@ jobs:
 
 - [Release](./.github/workflows/_release.yaml)
 
-```
+```yaml
 name: "Run release"
 on:
   push:
@@ -79,7 +79,7 @@ jobs:
 
 - [E2E](./.github/actions/e2e/action.yaml)
 
-```
+```yaml
 name: "Run E2E test"
 on:
   push:
@@ -107,29 +107,29 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 
 The common workflows in this repository require the use of `make` commands. To ensure proper operation, please implement the following `make` commands in each Vald client repositories:
 
-- vald/clone: Clones the Vald repository with the name `vald-origin`.
+- `vald/clone`: Clones the Vald repository as the name `vald-origin`.
 
-- vald/checkout: Switches branches or tags in the cloned Vald repository. The `VALD_CHECKOUT_REF` variable specifies the desired branch or tag.
+- `vald/checkout`: Switches branches or tags in the cloned Vald repository. The `VALD_CHECKOUT_REF` variable specifies the desired branch or tag.
 
-- vald/origin/sha/print: Prints the SHA of the cloned Vald repository.
+- `vald/origin/sha/print`: Prints the SHA of the cloned Vald repository.
 
-- vald/sha/print: Prints the SHA managed by the Vald client.
+- `vald/sha/print`: Prints the SHA managed by the Vald client.
 
-- vald/sha/update: Updates the SHA managed by the Vald client.
+- `vald/sha/update`: Updates the SHA managed by the Vald client.
 
-- vald/client/version/update: Updates the Vald client version.
+- `vald/client/version/update`: Updates the Vald client version.
 
-- proto: Builds the protobuf using the croned Vald repository.
+- `proto`: Builds the protobuf using the croned Vald repository.
 
-- test: Executes tests for the Vald client.
+- `test`: Executes tests for the Vald client.
 
-- ci/deps/install: Installs dependencies.
+- `ci/deps/install`: Installs dependencies.
 
-- ci/deps/update: Updates dependencies.
+- `ci/deps/update`: Updates dependencies.
 
-- ci/package/prepare: Prepares packages for publication.
+- `ci/package/prepare`: Prepares packages for publication.
 
-- ci/package/publish: Publishes packages to external package repositories.
+- `ci/package/publish`: Publishes packages to external package repositories.
 
 
 These `make` commands are essential for the proper functioning of the workflows and CI processes in this repository.
