@@ -74,6 +74,9 @@ jobs:
           make proto
           make vald/sha/update
           make vald/client/version/update
+
+          echo "Update dependencies"
+          make ci/deps/update
       - name: Commit
         run: |
           SHA="$(make vald/sha/print)"
