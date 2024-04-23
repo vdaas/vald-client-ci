@@ -1,6 +1,6 @@
-# GitHub Actions CI workflows/actions for Vald client
+# GitHub Actions CI workflows, actions for Vald client
 
-A repository of workflows/actions for Vald client CI configuration.
+A repository of workflows and actions for Vald client CI configuration.
 
 - [vald-client-go](https://github.com/vdaas/vald-client-go)
 - [vald-client-node](https://github.com/vdaas/vald-client-node)
@@ -13,7 +13,7 @@ A repository of workflows/actions for Vald client CI configuration.
 
 - [Sync](./.github/workflows/sync.yaml)
   - This workflow is designed to handle synchronization with the Vald repository.
-  - It checks for differences between the `main` branch of Vald client repository and the `main` branch of the Vald repository, and synchronizes any changes.
+  - It checks for differences between the `main` branch of Vald client repository and the `main` branch of the Vald repository, and synchronizes API changes.
   - Additionally, it synchronizes release tags if a release occurs in the Vald repository.
   - This automation helps maintain alignment and reduces manual effort in keeping repositories synchronized.
 
