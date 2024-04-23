@@ -28,12 +28,18 @@ runs:
   steps:
     - name: Setup Go environment
       if: ${{ inputs.client_type == 'go' }}
-      uses: ./.github/actions/setup-go
+      # TODO: change to the following before main merge.
+      # uses: vdaas/vald-client-ci/.github/actions/setup-go@main
+      uses: vdaas/vald-client-ci/.github/actions/setup-go@feat/add-common-workflows
     - name: Setup Node environment
       if: ${{ inputs.client_type == 'node' }}
-      uses: ./.github/actions/setup-node
+      # TODO: change to the following before main merge.
+      # uses: vdaas/vald-client-ci/.github/actions/setup-node@main
+      uses: vdaas/vald-client-ci/.github/actions/setup-node@feat/add-common-workflows
       with:
         node_version: '18'
     - name: Setup Node environment
       if: ${{ inputs.client_type == 'java' }}
-      uses: ./.github/actions/setup-java
+      # TODO: change to the following before main merge.
+      # uses: vdaas/vald-client-ci/.github/actions/setup-java@main
+      uses: vdaas/vald-client-ci/.github/actions/setup-java@feat/add-common-workflows

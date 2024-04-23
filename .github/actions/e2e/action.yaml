@@ -27,7 +27,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: ./.github/actions/setup-language
+    # TODO: change to the following before main merge.
+    # - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+    - uses: vdaas/vald-client-ci/.github/actions/setup-language@feat/add-common-workflows
       with:
         client_type: ${{ inputs.client_type }}
     - uses: rinx/setup-k3d@v0.0.4

@@ -78,7 +78,9 @@ jobs:
           fetch-depth: 1
       - name: Install Protoc
         uses: arduino/setup-protoc@v1
-      - uses: ./.github/actions/setup-language
+      # TODO: change to the following before main merge.
+      # - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+      - uses: vdaas/vald-client-ci/.github/actions/setup-language@feat/add-common-workflows
         with:
           client_type: ${{ inputs.client_type }}
       # - name: Publish
