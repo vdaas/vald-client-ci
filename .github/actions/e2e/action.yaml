@@ -1,0 +1,87 @@
+#
+# Copyright (C) 2019-2024 vdaas.org vald team <vald@vdaas.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: "Deploy Vald and Run E2E test"
+description: "A action to deploy vald for E2E test"
+inputs:
+  client_type:
+    description: "Set client type. e.g) go, python, node, java"
+    required: true
+  image_tag:
+    description: "Set image tag to deploy Vald. e.g) nightly, vx.x.x"
+    required: true
+    default: "nightly"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: ./.github/actions/setup-language
+      with:
+        client_type: ${{ inputs.client_type }}
+    - uses: rinx/setup-k3d@v0.0.4
+      with:
+        version: latest
+        name: vald
+        agents: 1
+    - name: Check k3d
+      shell: bash
+      run: |
+        kubectl cluster-info
+    - uses: azure/setup-helm@v3
+    - name: Helm version
+      shell: bash
+      run: |
+        helm version
+    - name: Deploy Vald
+      shell: bash
+      run: |
+        helm repo add vald-charts https://vald.vdaas.org/charts
+        helm install \
+          --values ${VALUES} \
+          --set defaults.image.tag=${TAG} \
+          --set agent.ngt.dimension=300 \
+          --set agent.ngt.auto_index_length=2 \
+          --set agent.minReplicas=1 \
+          --set gateway.lb.enabled=false \
+          --set discoverer.enabled=false \
+          --set manager.index.enabled=false \
+          --generate-name vald-charts/vald
+        sleep 3
+        kubectl wait --for=condition=ready pod -l app=vald-agent --timeout=3m
+        kubectl get pods
+      env:
+        VALUES: https://raw.githubusercontent.com/vdaas/vald/main/.github/helm/values/values-lb.yaml
+        TAG: ${{ inputs.image_tag }}
+    - name: Download data
+      shell: bash
+      run: |
+        curl -OL https://raw.githubusercontent.com/rinx/word2vecjson/master/data/wordvecs1000.json
+    - name: Install dependencies
+      shell: bash
+      run: |
+        make ci/deps/install # NOTE: we may change to 'ci/deps/install'
+    - name: Run tests
+      shell: bash
+      run: |
+        kubectl port-forward statefulset/vald-agent 8081:8081 &
+        pid=$!
+
+        make ci/test # NOTE: we may change to 'ci/test/start'
+
+        kill $pid
+    - name: Delete downloaded dataset
+      shell: bash
+      run: |
+        rm -rf wordvecs1000.json
