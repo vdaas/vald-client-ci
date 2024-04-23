@@ -97,7 +97,7 @@ jobs:
           client_type: python # go, node, java
 ````
 
-## Important Notes
+## :warning: Important Notes
 
 ### Managing Secrets
 
