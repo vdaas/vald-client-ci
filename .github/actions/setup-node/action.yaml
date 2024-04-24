@@ -23,7 +23,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: arduino/setup-protoc@v1 # TODO: Check if it is needed or not.
     - name: Fetch Node version
       id: node_version
       shell: bash
