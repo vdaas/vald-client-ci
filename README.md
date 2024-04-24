@@ -131,6 +131,13 @@ The common workflows in this repository require the use of `make` commands. To e
 
 - `ci/package/publish`: Publishes packages to external package repositories.
 
+- `version/go`: Print Go version. It is for Go language environment.
+
+- `version/node`: Print Node version. It is for Node language environment.
+
+- `version/python`: Print Python version. It is for Python language environment.
+
+- `version/java`: Print Java version. It is for Java language environment.
 
 These `make` commands are essential for the proper functioning of the workflows and CI processes in this repository.
 
