@@ -13,31 +13,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: "Setup Node environment"
-description: "A action to set up Node environment"
+name: "Setup Python environment"
+description: "A action to set up Python environment"
 inputs:
-  node_version:
-    description: "The Node version to use."
+  python_version:
+    description: "The Python version to use."
     required: false
     default: ""
 runs:
   using: "composite"
   steps:
-    - uses: arduino/setup-protoc@v1 # TODO: Check if it is needed or not.
-    - name: Fetch Node version
-      id: node_version
+    - name: Fetch Python version
+      id: python_version
       shell: bash
       run: |
-        NODE_VERSION=${NODE_VERSION:-`make version/node`}
+        PYTHON_VERSION=${PYTHON_VERSION:-`make version/python`}
 
-        echo "version=${NODE_VERSION}" >> $GITHUB_OUTPUT
+        echo "version=${PYTHON_VERSION}" >> $GITHUB_OUTPUT
       env:
-        NODE_VERSION: ${{ inputs.node_version }}
-    - uses: actions/setup-node@v3
+        PYTHON_VERSION: ${{ inputs.python_version }}
+    - uses: actions/setup-python@v3
       with:
-        node-version: ${{ steps.node_version.outputs.version }}
-        registry-url: 'https://registry.npmjs.org'
-    - name: Check Node version
+        python-version: ${{ steps.python_version.outputs.version }}
+    - name: Check Python version
       shell: bash
       run: |
-        node version
+        python version

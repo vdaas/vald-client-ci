@@ -59,6 +59,11 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           git_user_signingkey: true
           git_commit_gpgsign: true
+      # TODO: change to the following before main merge.
+      # - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+      - uses: vdaas/vald-client-ci/.github/actions/setup-language@feat/add-common-workflows
+        with:
+          client_type: ${{ inputs.client_type }}
       - name: Clone Vald repository
         run: |
           make vald/clone && make VALD_CHECKOUT_REF=${VALD_CHECKOUT_REF} vald/checkout
@@ -71,6 +76,7 @@ jobs:
 
           echo "Build proto"
           export GOPATH=$HOME/go
+          export PATH=$HOME/grpc-java:$PATH
           make proto
           make vald/sha/update
           make vald/client/version/update
