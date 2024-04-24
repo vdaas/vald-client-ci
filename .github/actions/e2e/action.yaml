@@ -32,20 +32,28 @@ runs:
     - uses: vdaas/vald-client-ci/.github/actions/setup-language@feat/add-common-workflows
       with:
         client_type: ${{ inputs.client_type }}
-    - uses: rinx/setup-k3d@v0.0.4
+    - name: Get dependencies version
+      id: get_deps_version
+      shell: bash
+      run: |
+        K3D_VERSION=$(curl -s  ${VALD_URL}/versions/K3S_VERSION)
+        HELM_VERSION=$(curl -s ${VALD_URL}/versions/HELM_VERSION)
+
+        echo "K3D_VERSION=${K3D_VERSION}"   >> $GITHUB_OUTPUT
+        echo "HELM_VERSION=${HELM_VERSION}" >> $GITHUB_OUTPUT
+
+        echo "K3D_VERSION=${K3D_VERSION}"
+        echo "HELM_VERSION=${HELM_VERSION}"
+      env:
+        VALD_URL: " https://raw.githubusercontent.com/vdaas/vald/main"
+    - uses: vdaas/vald/.github/actions/setup-k3d@main
       with:
-        version: latest
-        name: vald
-        agents: 1
-    - name: Check k3d
-      shell: bash
-      run: |
-        kubectl cluster-info
-    - uses: azure/setup-helm@v3
-    - name: Helm version
-      shell: bash
-      run: |
-        helm version
+       agents: 3
+       version: "latest"
+       k3s_version: ${{ steps.get_deps_version.outpus.K3D_VERSION }}
+    - uses: vdaas/vald/.github/actions/setup-helm@main
+      with:
+        helm_version: ${{ steps.get_deps_version.outpus.HELM_VERSION }}
     - name: Deploy Vald
       shell: bash
       run: |
