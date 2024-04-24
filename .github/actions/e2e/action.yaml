@@ -91,7 +91,3 @@ runs:
         make ci/test
 
         kill $pid
-    - name: Delete downloaded dataset
-      shell: bash
-      run: |
-        make dataset/delete
