@@ -42,7 +42,7 @@ runs:
       # uses: vdaas/vald-client-ci/.github/actions/setup-python@main
       uses: vdaas/vald-client-ci/.github/actions/setup-python@feat/add-common-workflows
       with:
-        python-version: '3.10'
+        python_version: '3.10'
     - name: Setup Java environment
       if: ${{ inputs.client_type == 'java' }}
       # TODO: change to the following before main merge.

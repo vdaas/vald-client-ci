@@ -34,7 +34,7 @@ runs:
         PYTHON_VERSION: ${{ inputs.python_version }}
     - uses: actions/setup-python@v3
       with:
-        python-version: ${{ steps.python_version.outputs.version }}
+        python_version: ${{ steps.python_version.outputs.version }}
     - name: Check Python version
       shell: bash
       run: |
