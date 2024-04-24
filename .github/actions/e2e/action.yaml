@@ -39,7 +39,7 @@ runs:
         K3S_VERSION=$(curl -s  ${VALD_URL}/versions/K3S_VERSION)
         HELM_VERSION=$(curl -s ${VALD_URL}/versions/HELM_VERSION)
 
-        echo "K3S_VERSION=${K3D_VERSION}"   >> $GITHUB_OUTPUT
+        echo "K3S_VERSION=${K3S_VERSION}"   >> $GITHUB_OUTPUT
         echo "HELM_VERSION=${HELM_VERSION}" >> $GITHUB_OUTPUT
 
         echo "K3S_VERSION=${K3S_VERSION}"
