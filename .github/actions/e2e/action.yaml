@@ -42,7 +42,7 @@ runs:
         echo "K3S_VERSION=${K3D_VERSION}"   >> $GITHUB_OUTPUT
         echo "HELM_VERSION=${HELM_VERSION}" >> $GITHUB_OUTPUT
 
-        echo "K3S_VERSION=$=${K3S_VERSION}"
+        echo "K3S_VERSION=${K3S_VERSION}"
         echo "HELM_VERSION=${HELM_VERSION}"
       env:
         VALD_URL: " https://raw.githubusercontent.com/vdaas/vald/main"
