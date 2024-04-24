@@ -39,4 +39,4 @@ runs:
     - name: Check Java version
       shell: bash
       run: |
-        java version
+        java -version

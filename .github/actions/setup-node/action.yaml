@@ -39,4 +39,4 @@ runs:
     - name: Check Node version
       shell: bash
       run: |
-        node version
+        node --version

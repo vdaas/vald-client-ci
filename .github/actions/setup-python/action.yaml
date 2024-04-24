@@ -38,4 +38,4 @@ runs:
     - name: Check Python version
       shell: bash
       run: |
-        python version
+        python --version
