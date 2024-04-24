@@ -28,9 +28,7 @@ runs:
   steps:
     - name: Setup Go environment
       if: ${{ inputs.client_type == 'go' }}
-      # TODO: change to the following before main merge.
-      # uses: vdaas/vald-client-ci/.github/actions/setup-go@main
-      uses: vdaas/vald-client-ci/.github/actions/setup-go@feat/add-common-workflows
+      uses: vdaas/vald/.github/actions/setup-go@main
     - name: Setup Node environment
       if: ${{ inputs.client_type == 'node' }}
       # TODO: change to the following before main merge.
