@@ -77,21 +77,21 @@ runs:
     - name: Download data
       shell: bash
       run: |
-        curl -OL https://raw.githubusercontent.com/rinx/word2vecjson/master/data/wordvecs1000.json
+        make dataset/download
     - name: Install dependencies
       shell: bash
       run: |
-        make ci/deps/install # NOTE: we may change to 'ci/deps/install'
+        make ci/deps/install
     - name: Run tests
       shell: bash
       run: |
         kubectl port-forward statefulset/vald-agent 8081:8081 &
         pid=$!
 
-        make ci/test # NOTE: we may change to 'ci/test/start'
+        make ci/test
 
         kill $pid
     - name: Delete downloaded dataset
       shell: bash
       run: |
-        rm -rf wordvecs1000.json
+        make dataset/delete
