@@ -50,10 +50,10 @@ runs:
       with:
        agents: 3
        version: "latest"
-       k3s_version: ${{ steps.get_deps_version.outpus.K3S_VERSION }}
+       k3s_version: ${{ steps.get_deps_version.outputs.K3S_VERSION }}
     - uses: vdaas/vald/.github/actions/setup-helm@main
       with:
-        helm_version: ${{ steps.get_deps_version.outpus.HELM_VERSION }}
+        helm_version: ${{ steps.get_deps_version.outputs.HELM_VERSION }}
     - name: Deploy Vald
       shell: bash
       run: |
