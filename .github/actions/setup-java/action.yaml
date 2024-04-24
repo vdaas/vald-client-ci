@@ -13,30 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: "Setup Node environment"
-description: "A action to set up Node environment"
+name: "Setup Java environment"
+description: "A action to set up Java environment"
 inputs:
-  node_version:
-    description: "The Node version to use."
+  java_version:
+    description: "The Java version to use."
     required: false
     default: ""
 runs:
   using: "composite"
   steps:
-    - name: Fetch Node version
-      id: node_version
+    - name: Fetch Java version
+      id: java_version
       shell: bash
       run: |
-        NODE_VERSION=${NODE_VERSION:-`make version/node`}
+        JAVA_VERSION=${JAVA_VERSION:-`make version/java`}
 
-        echo "version=${NODE_VERSION}" >> $GITHUB_OUTPUT
+        echo "version=${JAVA_VERSION}" >> $GITHUB_OUTPUT
       env:
-        NODE_VERSION: ${{ inputs.node_version }}
-    - uses: actions/setup-node@v3
+        JAVA_VERSION: ${{ inputs.java_version }}
+    - uses: actions/setup-java@v3
       with:
-        node-version: ${{ steps.node_version.outputs.version }}
-        registry-url: 'https://registry.npmjs.org'
-    - name: Check Node version
+        distribution: 'temurin'
+        java-version: ${{ steps.java_version.outputs.version }}
+    - name: Check Java version
       shell: bash
       run: |
-        node version
+        java version
