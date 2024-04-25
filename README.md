@@ -107,8 +107,6 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 
 The common workflows in this repository require the use of `make` commands. To ensure proper operation, please implement the following `make` commands in each Vald client repositories:
 
-- `vald/clone`: Clones the Vald repository as the name `vald-origin`.
-
 - `vald/checkout`: Switches branches or tags in the cloned Vald repository. The `VALD_CHECKOUT_REF` variable specifies the desired branch or tag.
 
 - `vald/origin/sha/print`: Prints the SHA of the cloned Vald repository.

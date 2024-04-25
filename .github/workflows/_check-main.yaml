@@ -48,7 +48,7 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Clone Vald repository
         run: |
-          make vald/clone && make VALD_CHECKOUT_REF=${VALD_CHECKOUT_REF} vald/checkout
+          make VALD_CHECKOUT_REF=${VALD_CHECKOUT_REF} vald/checkout
         env:
           VALD_CHECKOUT_REF: ${{ inputs.vald_checkout_src_ref }}
       - name: Check SHA difference
