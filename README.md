@@ -46,7 +46,7 @@ on:
     - cron: "*/5 * * * *"
 jobs:
   sync:
-    uses: vdaas/vald-client-ci/.github/workflows/sync@main
+    uses: vdaas/vald-client-ci/.github/workflows/sync.yaml@main
     with:
       client_type: python # go, node, java
     secrets:
