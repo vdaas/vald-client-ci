@@ -74,10 +74,6 @@ runs:
       env:
         VALUES: https://raw.githubusercontent.com/vdaas/vald/main/.github/helm/values/values-lb.yaml
         TAG: ${{ inputs.image_tag }}
-    - name: Download data
-      shell: bash
-      run: |
-        make dataset/download
     - name: Install dependencies
       shell: bash
       run: |
