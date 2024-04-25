@@ -97,18 +97,16 @@ jobs:
         with:
           client_type: ${{ inputs.client_type }}
           image_tag: ${{ env.IMAGE_TAG }}
-
-      # TODO: change it later
-      # - name: Push
-      #   run: |
-      #     git push origin ${REF}
-      #   env:
-      #     REF: ${{ inputs.client_checkout_target_ref }}
-      # - name: Create tag
-      #   if: ${{ inputs.enable_tag_push == true }}
-      #   continue-on-error: true
-      #   run: |
-      #     version="$(make vald/client/version/print)"
-      #     git remote set-url origin "https://${CI_USER}:${CI_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-      #     git tag ${version}
-      #     git push origin ${version}
+      - name: Push
+        run: |
+          git push origin ${REF}
+        env:
+          REF: ${{ inputs.client_checkout_target_ref }}
+      - name: Create tag
+        if: ${{ inputs.enable_tag_push == true }}
+        continue-on-error: true
+        run: |
+          version="$(make vald/client/version/print)"
+          git remote set-url origin "https://${CI_USER}:${CI_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git tag ${version}
+          git push origin ${version}
