@@ -84,6 +84,6 @@ runs:
         kubectl port-forward statefulset/vald-agent 8081:8081 &
         pid=$!
 
-        make ci/test
+        make test
 
         kill $pid
