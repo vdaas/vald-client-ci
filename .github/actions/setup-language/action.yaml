@@ -21,7 +21,7 @@ inputs:
     required: false
     default: ""
   client_type:
-    description: "Set client type. e.g) go, python, node, java"
+    description: "Set client type. e.g) go, python, node, java, clj"
     required: true
 runs:
   using: "composite"
@@ -45,6 +45,11 @@ runs:
         python_version: '3.10'
     - name: Setup Java environment
       if: ${{ inputs.client_type == 'java' }}
+      # TODO: change to the following before main merge.
+      # uses: vdaas/vald-client-ci/.github/actions/setup-java@main
+      uses: vdaas/vald-client-ci/.github/actions/setup-java@feat/add-common-workflows
+    - name: Setup Clojure environment
+      if: ${{ inputs.client_type == 'clj' }}
       # TODO: change to the following before main merge.
       # uses: vdaas/vald-client-ci/.github/actions/setup-java@main
       uses: vdaas/vald-client-ci/.github/actions/setup-java@feat/add-common-workflows
