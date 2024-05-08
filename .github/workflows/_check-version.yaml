@@ -57,7 +57,7 @@ jobs:
       - name: Get version difference
         id: get_version_diff
         run: |
-          TAG_LIST=$(curl -s "${TAG_LIST_API_URL}" | jq -r '.[].name' | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sort -rV)
+          TAG_LIST=$(curl -s "${TAG_LIST_API_URL}" | jq -r '.[].name' | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
           CLIENT_TAG_LIST=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
 
           # We cannot store multiple rows of values in "GITHUB_OUTPUT", so convert them to a single line.
