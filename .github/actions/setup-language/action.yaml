@@ -51,5 +51,5 @@ runs:
     - name: Setup Clojure environment
       if: ${{ inputs.client_type == 'clj' }}
       # TODO: change to the following before main merge.
-      # uses: vdaas/vald-client-ci/.github/actions/setup-java@main
-      uses: vdaas/vald-client-ci/.github/actions/setup-java@feat/add-common-workflows
+      # uses: vdaas/vald-client-ci/.github/actions/setup-clj@main
+      uses: vdaas/vald-client-ci/.github/actions/setup-clj@feat/add-common-workflows
