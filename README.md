@@ -115,6 +115,8 @@ The common workflows in this repository require the use of `make` commands. To e
 
 - `vald/sha/update`: Updates the SHA managed by the Vald client.
 
+- `vald/client/version/print`: Print the Vald client version.
+
 - `vald/client/version/update`: Updates the Vald client version.
 
 - `proto`: Builds the protobuf using the croned Vald repository.
