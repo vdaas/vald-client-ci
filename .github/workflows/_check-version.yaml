@@ -51,7 +51,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.client_checkout_target_ref }}
-          token: ${{ secrets.CI_TOKEN }}
       - name: Set Git config
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
