@@ -19,7 +19,7 @@ on:
     inputs:
       client_type:
         type: "string"
-        description: "Set client type. e.g) go, python, node, java"
+        description: "Set client type. e.g) go, python, node, java, clj"
         required: false
 
 # If a workflow is executed in duplicate, the first workflow continues to be executed.

@@ -34,7 +34,7 @@ on:
         required: false
       client_type:
         type: "string"
-        description: "Set client type. e.g) go, python, node, java"
+        description: "Set client type. e.g) go, python, node, java, clj"
         required: true
 env:
   CI_USER: ${{ secrets.CI_USER }}
