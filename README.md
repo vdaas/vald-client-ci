@@ -115,7 +115,7 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 
 - `PIP_USERNAME`: The username used to publish packages to PyPi. This is necessary for distributing Python packages via pip.
 
-- `PIP_TOKEN`: The token used for authentication to PyPi, allowing you to publish Python
+- `PIP_TOKEN`: The token used for authentication to PyPi, allowing you to publish Python.
 
 #### Required Secrets for vald-client-node
 
