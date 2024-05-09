@@ -111,6 +111,35 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 
 - `GPG_PRIVATE_KEY`: The GPG private key used for signing, crucial for the release process.
 
+#### Required Secrets for vald-client-python
+
+- `PIP_USERNAME`:
+
+- `PIP_TOKEN`: a
+
+#### Required Secrets for vald-client-node
+
+- `NPM_AUTH_TOKEN`:
+
+#### Required Secrets for vald-client-java
+
+- `GPG_KEYID`:
+
+- `GPG_PASSPHRASE`:
+
+- `PGP_PRIVATE_KEY`:
+
+- `SONATYPE_USERNAME`:
+
+- `SONATYPE_PASSWORD`:
+
+#### Required Secrets for vald-client-clj
+
+- `CLOJARS_USER`:
+
+- `CLOJARS_PASS`:
+
+
 ### Required `make` Command
 
 The common workflows in this repository require the use of `make` commands. To ensure proper operation, please implement the following `make` commands in each Vald client repositories:
