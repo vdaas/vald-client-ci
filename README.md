@@ -55,7 +55,7 @@ jobs:
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 ```
 
-- [Release](./.github/workflows/_release.yaml)
+- [Release](./.github/workflows/release.yaml)
 
 ```yaml
 name: "Run release"
