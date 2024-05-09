@@ -67,4 +67,3 @@ jobs:
           echo "NEED_UPDATE=true"
           echo "CURRENT_VALD_SHA=${CURRENT_VALD_SHA}"
           echo "ORIGIN_VALD_SHA=${ORIGIN_VALD_SHA}"
-          echo "CURRENT_VALD_SHA=${CURRENT_VALD_SHA}"
