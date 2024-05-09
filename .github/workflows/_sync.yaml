@@ -69,19 +69,27 @@ jobs:
           make VALD_CHECKOUT_REF=${VALD_CHECKOUT_REF} vald/checkout
         env:
           VALD_CHECKOUT_REF: ${{ inputs.vald_checkout_src_ref }}
+      - name: Install dependencies
+        run: |
+          make ci/deps/install
       - name: Build proto
         run: |
-          echo "Install dependencies"
-          make ci/deps/install
-
-          echo "Build proto"
           export GOPATH=$HOME/go
           export PATH=$HOME/grpc-java:$PATH
           make proto
+      - name: Update SHA and client version
+        run: |
           make vald/sha/update
           make vald/client/version/update
-
-          echo "Update dependencies"
+      # TODO: change to the following before main merge.
+      # - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+      - name: Change Go version after client version updates
+        uses: vdaas/vald-client-ci/.github/actions/setup-language@feat/add-common-workflows
+        if: ${{ inputs.client_type == 'go' }}
+        with:
+          client_type: ${{ inputs.client_type }}
+      - name: Update dependencies
+        run: |
           make ci/deps/update
       - name: Commit
         run: |

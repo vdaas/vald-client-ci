@@ -34,15 +34,11 @@ runs:
       # TODO: change to the following before main merge.
       # uses: vdaas/vald-client-ci/.github/actions/setup-node@main
       uses: vdaas/vald-client-ci/.github/actions/setup-node@feat/add-common-workflows
-      with:
-        node_version: '18'
     - name: Setup Python environment
       if: ${{ inputs.client_type == 'python' }}
       # TODO: change to the following before main merge.
       # uses: vdaas/vald-client-ci/.github/actions/setup-python@main
       uses: vdaas/vald-client-ci/.github/actions/setup-python@feat/add-common-workflows
-      with:
-        python_version: '3.10'
     - name: Setup Java environment
       if: ${{ inputs.client_type == 'java' }}
       # TODO: change to the following before main merge.
