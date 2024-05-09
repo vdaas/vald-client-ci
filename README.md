@@ -6,6 +6,7 @@ A repository of workflows and actions for Vald client CI configuration.
 - [vald-client-node](https://github.com/vdaas/vald-client-node)
 - [vald-client-python](https://github.com/vdaas/vald-client-python)
 - [vald-client-java](https://github.com/vdaas/vald-client-java)
+- [vald-client-clj](https://github.com/vdaas/vald-client-clj)
 
 ## The workflows/actions
 
