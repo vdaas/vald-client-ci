@@ -22,11 +22,6 @@ on:
         type: string
         default: main
         required: false
-      tag_list_api_url:
-        description: "Tag list API URL"
-        type: string
-        default: https://api.github.com/repos/vdaas/vald/tags
-        required: false
     outputs:
       NEED_UPDATE:
         description: "Whether it should be updated version"
@@ -45,7 +40,7 @@ jobs:
       TAG_DIFF_LIST_JSON: ${{ steps.get_version_diff.outputs.TAG_DIFF_LIST_JSON }}
       TAG_DIFF_LIST_JSON_LEN: ${{ steps.get_version_diff.outputs.TAG_DIFF_LIST_JSON_LEN }}
     env:
-      TAG_LIST_API_URL: ${{ inputs.tag_list_api_url }}
+      VALD_TAG_LIST_API_URL: https://api.github.com/repos/vdaas/vald/tags
     steps:
       - uses: actions/checkout@v4
         with:
@@ -57,11 +52,11 @@ jobs:
       - name: Get version difference
         id: get_version_diff
         run: |
-          TAG_LIST=$(curl -s "${TAG_LIST_API_URL}" | jq -r '.[].name' | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
+          VALD_TAG_LIST=$(curl -s "${VALD_TAG_LIST_API_URL}" | jq -r '.[].name' | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
           CLIENT_TAG_LIST=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
 
           # We cannot store multiple rows of values in "GITHUB_OUTPUT", so convert them to a single line.
-          TAG_DIFF_LIST=$(diff -u <(echo "${CLIENT_TAG_LIST}") <(echo "${TAG_LIST}") | grep '^+' | grep -v '^+++' | sed 's/^+//' | tac)
+          TAG_DIFF_LIST=$(diff -u <(echo "${CLIENT_TAG_LIST}") <(echo "${VALD_TAG_LIST}") | grep '^+' | grep -v '^+++' | sed 's/^+//' | tac)
           TAG_DIFF_LIST=$(echo "${TAG_DIFF_LIST}" | awk -F '.' '!seen[$1"."$2]++' | awk '{printf "%s ", $0} END {print ""}' | sed 's/[ 　]*$//')
 
           TAG_DIFF_LIST_JSON=$(echo "${TAG_DIFF_LIST}" | jq --compact-output -R 'split(" ")')
@@ -69,10 +64,10 @@ jobs:
 
           echo "NEED_UPDATE=${NEED_UPDATE}"                       >> $GITHUB_OUTPUT
           echo "TAG_DIFF_LIST_JSON=${TAG_DIFF_LIST_JSON}"         >> $GITHUB_OUTPUT # e.g) [ "v1.6.3", "v1.7.11", "v1.7.12"]
-          echo "TAG_DIFF_LIST_JSON_LEN=${TAG_DIFF_LIST_JSON_LEN}" >> $GITHUB_OUTPUT # e.g) 0
+          echo "TAG_DIFF_LIST_JSON_LEN=${TAG_DIFF_LIST_JSON_LEN}" >> $GITHUB_OUTPUT # e.g) 3
 
           echo "NEED_UPDATE=${NEED_UPDATE}"
-          echo "TAG_LIST=${TAG_LIST}"
+          echo "VALD_TAG_LIST=${VALD_TAG_LIST}"
           echo "CLIENT_TAG_LIST=${CLIENT_TAG_LIST}"
           echo "TAG_DIFF_LIST=${TAG_DIFF_LIST}"
           echo "TAG_DIFF_LIST_JSON=${TAG_DIFF_LIST_JSON}"
