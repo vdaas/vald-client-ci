@@ -141,7 +141,6 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 
 - `CLOJARS_PASS`: The password for Clojars, used for authentication when publishing Clojure packages.
 
-
 ### Required `make` Command
 
 The common workflows in this repository require the use of `make` commands. To ensure proper operation, please implement the following `make` commands in each Vald client repositories:
