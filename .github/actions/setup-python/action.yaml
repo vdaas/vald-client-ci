@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 name: "Setup Python environment"
-description: "A action to set up Python environment"
+description: "An action to set up the Python environment"
 inputs:
   python_version:
     description: "The Python version to use."

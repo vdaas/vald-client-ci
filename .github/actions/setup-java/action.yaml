@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 name: "Setup Java environment"
-description: "A action to set up Java environment"
+description: "An action to set up the Java environment"
 inputs:
   java_version:
     description: "The Java version to use."

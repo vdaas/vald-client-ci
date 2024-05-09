@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 name: "Setup Clojure environment"
-description: "A action to set up Clojure environment"
+description: "An action to set up the Clojure environment"
 runs:
   using: "composite"
   steps:

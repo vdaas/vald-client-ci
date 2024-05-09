@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 name: "Setup Node environment"
-description: "A action to set up Node environment"
+description: "An action to set up the Node environment"
 inputs:
   node_version:
     description: "The Node version to use."

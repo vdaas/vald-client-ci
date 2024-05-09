@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 name: "Deploy Vald and Run E2E test"
-description: "A action to deploy vald for E2E test"
+description: "An action to deploy Vald for E2E testing"
 inputs:
   client_type:
     description: "Set client type. e.g) go, python, node, java"

@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: Build client
+name: Sync and Build Vald Client
 on:
   workflow_call:
     inputs:

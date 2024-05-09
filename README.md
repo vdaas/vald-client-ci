@@ -22,7 +22,7 @@ A repository of workflows and actions for Vald client CI configuration.
   - It also handles the publication to external package repositories, ensuring that the released versions are available to the community.
     - For Python projects, the release is published to [PyPi](https://pypi.org/project/vald-client-python/), allowing Python users to install via `pip`.
     - For Node.js projects, the release is published to [npm](https://www.npmjs.com/package/vald-client-node), enabling installation via `npm install`.
-    - For Java projects, the release is published to [maven](https://central.sonatype.com/artifact/org.vdaas.vald/vald-client-java), enabling installation.
+    - For Java projects, Maven artifacts are published [here](https://central.sonatype.com/artifact/org.vdaas.vald/vald-client-java) and can be integrated into projects.
 
 ### Actions
 
