@@ -36,34 +36,26 @@ concurrency:
 
 jobs:
   check-main:
-    # TODO: change to the following before main merge.
-    # uses: vdaas/vald-client-ci/.github/workflows/_check-main.yaml@main
-    uses: vdaas/vald-client-ci/.github/workflows/_check-main.yaml@feat/add-common-workflows
+    uses: vdaas/vald-client-ci/.github/workflows/_check-main.yaml@main
     secrets: inherit
 
   sync-main:
     if: ${{ needs.check-main.outputs.NEED_UPDATE == 'true' }}
     needs:
       - check-main
-    # TODO: change to the following before main merge.
-    # uses: vdaas/vald-client-ci/.github/workflows/_sync.yaml@main
-    uses: vdaas/vald-client-ci/.github/workflows/_sync.yaml@feat/add-common-workflows
+    uses: vdaas/vald-client-ci/.github/workflows/_sync.yaml@main
     with:
       client_type: ${{ inputs.client_type }}
     secrets: inherit
 
   check-version:
-    # TODO: change to the following before main merge.
-    # uses: vdaas/vald-client-ci/.github/workflows/_check-version.yaml@main
-    uses: vdaas/vald-client-ci/.github/workflows/_check-version.yaml@feat/add-common-workflows
+    uses: vdaas/vald-client-ci/.github/workflows/_check-version.yaml@main
     secrets: inherit
 
   sync-version:
     needs:
       - check-version
-    # TODO: change to the following before main merge.
-    # uses: vdaas/vald-client-ci/.github/workflows/_sync-version.yaml@main
-    uses: vdaas/vald-client-ci/.github/workflows/_sync-version.yaml@feat/add-common-workflows
+    uses: vdaas/vald-client-ci/.github/workflows/_sync-version.yaml@main
     strategy:
       fail-fast: false
       max-parallel: ${{ fromJson(needs.check-version.outputs.TAG_DIFF_LIST_JSON_LEN) }}

@@ -27,9 +27,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # TODO: change to the following before main merge.
-    # - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
-    - uses: vdaas/vald-client-ci/.github/actions/setup-language@feat/add-common-workflows
+    - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
       with:
         client_type: ${{ inputs.client_type }}
     - name: Get dependencies version

@@ -81,9 +81,7 @@ jobs:
   sync-version:
     needs:
       - prepare
-    # TODO: change to the following before main merge.
-    # uses: vdaas/vald-client-ci/.github/workflows/_sync.yaml@main
-    uses: vdaas/vald-client-ci/.github/workflows/_sync.yaml@feat/add-common-workflows
+    uses: vdaas/vald-client-ci/.github/workflows/_sync.yaml@main
     with:
       vald_checkout_src_ref: ${{ inputs.vald_checkout_src_tag_ref }}
       client_checkout_target_ref: ${{ needs.prepare.outputs.RELEASE_BRANCH_NAME }}
