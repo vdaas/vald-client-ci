@@ -62,8 +62,7 @@ jobs:
             exit 0
           fi
 
-          echo "NEED_UPDATE=true" >> $GITHUB_OUTPUT
+          echo "NEED_UPDATE=true" | tee -a $GITHUB_OUTPUT
 
-          echo "NEED_UPDATE=true"
           echo "CURRENT_VALD_SHA=${CURRENT_VALD_SHA}"
           echo "ORIGIN_VALD_SHA=${ORIGIN_VALD_SHA}"

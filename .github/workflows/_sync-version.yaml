@@ -54,7 +54,7 @@ jobs:
         run: |
           for image in ${IMAGES}; do
             echo "Search image: ${image}:${IMAGE_TAG}"
-            if ! curl -s "https://registry.hub.docker.com/v2/repositories/${image}/tags/${IMAGE_TAG}" | jq '.name' | grep -v "null" > /dev/null ; then
+            if ! curl -fsSL "https://registry.hub.docker.com/v2/repositories/${image}/tags/${IMAGE_TAG}" | jq '.name' | grep -v "null" > /dev/null ; then
               echo "Image ${image}:${IMAGE_TAG} not Found. Existing..."
               exit 1
             else
@@ -73,8 +73,7 @@ jobs:
             git checkout -b ${RELEASE_BRANCH_NAME} && git push origin ${RELEASE_BRANCH_NAME}
           fi
 
-          echo "RELEASE_BRANCH_NAME=${RELEASE_BRANCH_NAME}" >> $GITHUB_OUTPUT
-          echo "RELEASE_BRANCH_NAME=${RELEASE_BRANCH_NAME}"
+          echo "RELEASE_BRANCH_NAME=${RELEASE_BRANCH_NAME}" | tee -a $GITHUB_OUTPUT
         env:
           TAG_REF: ${{ inputs.vald_checkout_src_tag_ref }}
 

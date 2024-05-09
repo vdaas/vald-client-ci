@@ -52,7 +52,7 @@ jobs:
       - name: Get version difference
         id: get_version_diff
         run: |
-          VALD_TAG_LIST=$(curl -s "${VALD_TAG_LIST_API_URL}" | jq -r '.[].name' | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
+          VALD_TAG_LIST=$(curl -fsSL "${VALD_TAG_LIST_API_URL}" | jq -r '.[].name' | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
           CLIENT_TAG_LIST=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sed '/^v/! s/^/v/' | sort -rV)
 
           # We cannot store multiple rows of values in "GITHUB_OUTPUT", so convert them to a single line.
@@ -62,13 +62,10 @@ jobs:
           TAG_DIFF_LIST_JSON=$(echo "${TAG_DIFF_LIST}" | jq --compact-output -R 'split(" ")')
           TAG_DIFF_LIST_JSON_LEN=$(echo "${TAG_DIFF_LIST_JSON}" | jq 'length')
 
-          echo "NEED_UPDATE=${NEED_UPDATE}"                       >> $GITHUB_OUTPUT
-          echo "TAG_DIFF_LIST_JSON=${TAG_DIFF_LIST_JSON}"         >> $GITHUB_OUTPUT # e.g) [ "v1.6.3", "v1.7.11", "v1.7.12"]
-          echo "TAG_DIFF_LIST_JSON_LEN=${TAG_DIFF_LIST_JSON_LEN}" >> $GITHUB_OUTPUT # e.g) 3
-
-          echo "NEED_UPDATE=${NEED_UPDATE}"
           echo "VALD_TAG_LIST=${VALD_TAG_LIST}"
           echo "CLIENT_TAG_LIST=${CLIENT_TAG_LIST}"
           echo "TAG_DIFF_LIST=${TAG_DIFF_LIST}"
-          echo "TAG_DIFF_LIST_JSON=${TAG_DIFF_LIST_JSON}"
-          echo "TAG_DIFF_LIST_JSON_LEN=${TAG_DIFF_LIST_JSON_LEN}"
+
+          echo "NEED_UPDATE=${NEED_UPDATE}"                       | tee -a $GITHUB_OUTPUT
+          echo "TAG_DIFF_LIST_JSON=${TAG_DIFF_LIST_JSON}"         | tee -a $GITHUB_OUTPUT # e.g) [ "v1.6.3", "v1.7.11", "v1.7.12"]
+          echo "TAG_DIFF_LIST_JSON_LEN=${TAG_DIFF_LIST_JSON_LEN}" | tee -a $GITHUB_OUTPUT # e.g) 3

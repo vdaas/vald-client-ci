@@ -23,6 +23,10 @@ inputs:
     description: "Set image tag to deploy Vald. e.g) nightly, vx.x.x"
     required: true
     default: "nightly"
+  dimension:
+    description: "Set vector dimension"
+    required: true
+    default: "300"
 
 runs:
   using: "composite"
@@ -34,16 +38,10 @@ runs:
       id: get_deps_version
       shell: bash
       run: |
-        K3S_VERSION=$(curl -s  ${VALD_URL}/versions/K3S_VERSION)
-        HELM_VERSION=$(curl -s ${VALD_URL}/versions/HELM_VERSION)
-
-        echo "K3S_VERSION=${K3S_VERSION}"   >> $GITHUB_OUTPUT
-        echo "HELM_VERSION=${HELM_VERSION}" >> $GITHUB_OUTPUT
-
-        echo "K3S_VERSION=${K3S_VERSION}"
-        echo "HELM_VERSION=${HELM_VERSION}"
+        echo "K3S_VERSION=$(curl -fsSL ${VALD_URL}/versions/K3S_VERSION)"   | tee -a $GITHUB_OUTPUT
+        echo "HELM_VERSION=$(curl -fsSL ${VALD_URL}/versions/HELM_VERSION)" | tee -a $GITHUB_OUTPUT
       env:
-        VALD_URL: " https://raw.githubusercontent.com/vdaas/vald/main"
+        VALD_URL: "https://raw.githubusercontent.com/vdaas/vald/main"
     - uses: vdaas/vald/.github/actions/setup-k3d@main
       with:
        agents: 3
@@ -59,7 +57,7 @@ runs:
         helm install \
           --values ${VALUES} \
           --set defaults.image.tag=${TAG} \
-          --set agent.ngt.dimension=300 \
+          --set agent.ngt.dimension=${DIMENSION} \
           --set agent.ngt.auto_index_length=2 \
           --set agent.minReplicas=1 \
           --set gateway.lb.enabled=false \
@@ -72,6 +70,7 @@ runs:
       env:
         VALUES: https://raw.githubusercontent.com/vdaas/vald/main/.github/helm/values/values-lb.yaml
         TAG: ${{ inputs.image_tag }}
+        DIMENSION: ${{ inputs.dimension }}
     - name: Install dependencies
       shell: bash
       run: |
