@@ -1,0 +1,86 @@
+#
+# Copyright (C) 2019-2024 vdaas.org vald team <vald@vdaas.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: "Deploy Vald and Run E2E test"
+description: "An action to deploy Vald for E2E testing"
+inputs:
+  client_type:
+    description: "Set client type. e.g) go, python, node, java"
+    required: true
+  image_tag:
+    description: "Set image tag to deploy Vald. e.g) nightly, vx.x.x"
+    required: true
+    default: "nightly"
+  dimension:
+    description: "Set vector dimension"
+    required: true
+    default: "300"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+      with:
+        client_type: ${{ inputs.client_type }}
+    - name: Get dependencies version
+      id: get_deps_version
+      shell: bash
+      run: |
+        echo "K3S_VERSION=$(curl -fsSL ${VALD_URL}/versions/K3S_VERSION)"   | tee -a $GITHUB_OUTPUT
+        echo "HELM_VERSION=$(curl -fsSL ${VALD_URL}/versions/HELM_VERSION)" | tee -a $GITHUB_OUTPUT
+      env:
+        VALD_URL: "https://raw.githubusercontent.com/vdaas/vald/main"
+    - uses: vdaas/vald/.github/actions/setup-k3d@main
+      with:
+       agents: 3
+       version: "latest"
+       k3s_version: ${{ steps.get_deps_version.outputs.K3S_VERSION }}
+    - uses: vdaas/vald/.github/actions/setup-helm@main
+      with:
+        helm_version: ${{ steps.get_deps_version.outputs.HELM_VERSION }}
+    - name: Deploy Vald
+      shell: bash
+      run: |
+        helm repo add vald-charts https://vald.vdaas.org/charts
+        helm install \
+          --values ${VALUES} \
+          --set defaults.image.tag=${TAG} \
+          --set agent.ngt.dimension=${DIMENSION} \
+          --set agent.ngt.auto_index_length=2 \
+          --set agent.minReplicas=1 \
+          --set gateway.lb.enabled=false \
+          --set discoverer.enabled=false \
+          --set manager.index.enabled=false \
+          --generate-name vald-charts/vald
+        sleep 3
+        kubectl wait --for=condition=ready pod -l app=vald-agent --timeout=3m
+        kubectl get pods
+      env:
+        VALUES: https://raw.githubusercontent.com/vdaas/vald/main/.github/helm/values/values-lb.yaml
+        TAG: ${{ inputs.image_tag }}
+        DIMENSION: ${{ inputs.dimension }}
+    - name: Install dependencies
+      shell: bash
+      run: |
+        make ci/deps/install
+    - name: Run tests
+      shell: bash
+      run: |
+        kubectl port-forward statefulset/vald-agent 8081:8081 &
+        pid=$!
+
+        make test
+
+        kill $pid

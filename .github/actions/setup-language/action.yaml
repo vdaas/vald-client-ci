@@ -1,0 +1,43 @@
+#
+# Copyright (C) 2019-2024 vdaas.org vald team <vald@vdaas.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: "Setup language environment"
+description: "An action to set up the language environment"
+inputs:
+  version:
+    description: "The version to use."
+    required: false
+    default: ""
+  client_type:
+    description: "Set client type. e.g) go, python, node, java, clj"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Go environment
+      if: ${{ inputs.client_type == 'go' }}
+      uses: vdaas/vald/.github/actions/setup-go@main
+    - name: Setup Node environment
+      if: ${{ inputs.client_type == 'node' }}
+      uses: vdaas/vald-client-ci/.github/actions/setup-node@main
+    - name: Setup Python environment
+      if: ${{ inputs.client_type == 'python' }}
+      uses: vdaas/vald-client-ci/.github/actions/setup-python@main
+    - name: Setup Java environment
+      if: ${{ inputs.client_type == 'java' }}
+      uses: vdaas/vald-client-ci/.github/actions/setup-java@main
+    - name: Setup Clojure environment
+      if: ${{ inputs.client_type == 'clj' }}
+      uses: vdaas/vald-client-ci/.github/actions/setup-clj@main
