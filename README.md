@@ -48,7 +48,7 @@ jobs:
   sync:
     uses: vdaas/vald-client-ci/.github/workflows/sync.yaml@main
     with:
-      client_type: python # go, node, java
+      client_type: python # go, node, java, clj
     secrets:
       CI_USER: ${{ secrets.DISPATCH_USER }}
       CI_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
   release:
     uses: vdaas/vald-client-ci/.github/workflows/_release.yaml@main
     with:
-      client_type: python # go, node, java
+      client_type: python # go, node, java, clj
     secrets: inherit
 
 ```
@@ -94,7 +94,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: vdaas/vald-client-ci/.github/actions/e2e@main
         with:
-          client_type: python # go, node, java
+          client_type: python # go, node, java, clj
 ````
 
 ## :warning: Important Notes
@@ -102,6 +102,14 @@ jobs:
 ### Managing Secrets
 
 Be sure to carefully manage and configure secrets used in these workflows. Improper handling of secrets can lead to security risks.
+
+#### Required Secrets
+
+- `CI_USER`: The username used in CI/CD processes. This user should have appropriate permissions.
+
+- `CI_TOKEN`: The token required for GitHub Actions to access the repository. Make sure it has proper permissions, like repo and workflow.
+
+- `GPG_PRIVATE_KEY`: The GPG private key used for signing, crucial for the release process.
 
 ### Required `make` Command
 
