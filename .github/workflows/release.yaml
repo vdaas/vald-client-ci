@@ -22,9 +22,10 @@ on:
         description: "Set client type. e.g) go, python, node, java"
         required: false
 
+# If a workflow is executed in duplicate, the first workflow continues to be executed.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   release:

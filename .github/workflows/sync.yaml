@@ -29,9 +29,10 @@ on:
       GPG_PRIVATE_KEY:
         required: true
 
+# If a workflow is executed in duplicate, the first workflow continues to be executed.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   check-main:
