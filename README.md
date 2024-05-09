@@ -13,7 +13,7 @@ A repository of workflows and actions for Vald client CI configuration.
 
 - [Sync](./.github/workflows/sync.yaml)
   - This workflow is designed to handle synchronization with the Vald repository.
-  - It checks for differences between the `main` branch of Vald client repository and the `main` branch of the Vald repository, and synchronizes API changes.
+  - It checks for differences between the `main` branch of the Vald client repository and the `main` branch of the Vald repository, and synchronizes API changes.
   - Additionally, it synchronizes release tags if a release occurs in the Vald repository.
   - This automation helps maintain alignment and reduces manual effort in keeping repositories synchronized.
 
@@ -21,7 +21,7 @@ A repository of workflows and actions for Vald client CI configuration.
   - This workflow is designed to handle the release process, including  packaging the Vald client for distribution.
   - It also handles the publication to external package repositories, ensuring that the released versions are available to the community.
     - For Python projects, the release is published to [PyPi](https://pypi.org/project/vald-client-python/), allowing Python users to install via `pip`.
-    - For Node.js projects, the release is published to [npm](https://www.npmjs.com/package/vald-client-node), enabling installation via `npm install`.
+    - For Node.js projects, the release is available on [npm](https://www.npmjs.com/package/vald-client-node) and can be installed using `npm install`.
     - For Java projects, Maven artifacts are published [here](https://central.sonatype.com/artifact/org.vdaas.vald/vald-client-java) and can be integrated into projects.
 
 ### Actions
