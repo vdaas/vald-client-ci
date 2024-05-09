@@ -68,7 +68,7 @@ on:
       - 'v*.*.*-*'
 jobs:
   release:
-    uses: vdaas/vald-client-ci/.github/workflows/_release.yaml@main
+    uses: vdaas/vald-client-ci/.github/workflows/release.yaml@main
     with:
       client_type: python # go, node, java, clj
     secrets: inherit
