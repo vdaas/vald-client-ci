@@ -133,7 +133,7 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 
 - `SONATYPE_USERNAME`: The username for accessing the Sonatype repository (like Maven Central), where Java packages are published.
 
-- `SONATYPE_PASSWORD`: The password for the Sonatype repository, used in conjunction with the username for authentication.
+- `SONATYPE_PASSWORD`: The password for the Sonatype repository, used alongside the username for authentication.
 
 #### Required Secrets for vald-client-clj
 
