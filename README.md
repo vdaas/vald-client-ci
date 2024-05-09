@@ -113,31 +113,31 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 
 #### Required Secrets for vald-client-python
 
-- `PIP_USERNAME`:
+- `PIP_USERNAME`: The username used to publish packages to PyPi. This is necessary for distributing Python packages via pip.
 
-- `PIP_TOKEN`: a
+- `PIP_TOKEN`: The token used for authentication to PyPi, allowing you to publish Python
 
 #### Required Secrets for vald-client-node
 
-- `NPM_AUTH_TOKEN`:
+- `NPM_AUTH_TOKEN`: The authentication token for npm, required to publish packages to the npm registry.
 
 #### Required Secrets for vald-client-java
 
-- `GPG_KEYID`:
+- `GPG_KEYID`: The key ID for GPG, which is used for signing Maven artifacts.
 
-- `GPG_PASSPHRASE`:
+- `GPG_PASSPHRASE`: The passphrase for the GPG key, required when signing artifacts.
 
-- `PGP_PRIVATE_KEY`:
+- `PGP_PRIVATE_KEY`: The PGP private key used for signing Maven artifacts. This key is crucial for ensuring secure distribution of Java packages.
 
-- `SONATYPE_USERNAME`:
+- `SONATYPE_USERNAME`: The username for accessing the Sonatype repository (like Maven Central), where Java packages are published.
 
-- `SONATYPE_PASSWORD`:
+- `SONATYPE_PASSWORD`: The password for the Sonatype repository, used in conjunction with the username for authentication.
 
 #### Required Secrets for vald-client-clj
 
-- `CLOJARS_USER`:
+- `CLOJARS_USER`: The username for Clojars, required to publish Clojure packages.
 
-- `CLOJARS_PASS`:
+- `CLOJARS_PASS`: The password for Clojars, used for authentication when publishing Clojure packages.
 
 
 ### Required `make` Command
