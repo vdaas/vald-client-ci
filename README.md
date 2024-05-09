@@ -50,9 +50,9 @@ jobs:
     with:
       client_type: python # go, node, java, clj
     secrets:
-      CI_USER: ${{ secrets.DISPATCH_USER }}
-      CI_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
-      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      CI_USER: ${{ secrets.YOUR_CI_USER }}  # The CI user to be used in your environment
+      CI_TOKEN: ${{ secrets.YOUR_CI_TOKEN }}  # The CI token for accessing the repository in your environment
+      GPG_PRIVATE_KEY: ${{ secrets.YOUR_GPG_PRIVATE_KEY }}  # Your GPG private key for signing
 ```
 
 - [Release](./.github/workflows/release.yaml)
