@@ -17,7 +17,7 @@ A repository of workflows and actions for Vald client CI configuration.
   - Additionally, it synchronizes release tags if a release occurs in the Vald repository.
   - This automation helps maintain alignment and reduces manual effort in keeping repositories synchronized.
 
-- [Release](./.github/workflows/_release.yaml)
+- [Release](./.github/workflows/release.yaml)
   - This workflow is designed to handle the release process, including  packaging the Vald client for distribution.
   - It also handles the publication to external package repositories, ensuring that the released versions are available to the community.
     - For Python projects, the release is published to [PyPi](https://pypi.org/project/vald-client-python/), allowing Python users to install via `pip`.
