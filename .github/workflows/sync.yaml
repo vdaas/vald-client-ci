@@ -53,6 +53,7 @@ jobs:
     secrets: inherit
 
   sync-version:
+    if: ${{ needs.check-version.outputs.TAG_DIFF_LIST_JSON_LEN != '0' }}
     needs:
       - check-version
     uses: vdaas/vald-client-ci/.github/workflows/_sync-version.yaml@main
