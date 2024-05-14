@@ -32,7 +32,7 @@ jobs:
     if: startsWith( github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Check if tag is a LATEST.
@@ -58,7 +58,7 @@ jobs:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'python'}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - name: Install dependencies
@@ -68,7 +68,7 @@ jobs:
         run: |
           make ci/package/prepare
       - name: Publish
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@v1
         with:
           user: ${{ secrets.PIP_USERNAME }}
           password: ${{ secrets.PIP_TOKEN }}
@@ -77,7 +77,7 @@ jobs:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'node'}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
@@ -102,7 +102,7 @@ jobs:
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - name: Prepare for publish
@@ -118,7 +118,7 @@ jobs:
     needs:
       - release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare for publish
         run: |
           make ci/package/prepare
