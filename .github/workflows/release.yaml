@@ -46,12 +46,13 @@ jobs:
           else
             echo "IS_LATEST_RELEASE=false" | tee -a $GITHUB_OUTPUT
           fi
+          echo "TAG=${TAG}" | tee -a $GITHUB_OUTPUT
       - name: Create release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Release ${{ github.ref }}
+          name: Release ${{ steps.check_latest.outputs.TAG }}
           tag_name: ${{ github.ref }}
           draft: false
           prerelease: false
