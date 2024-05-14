@@ -33,16 +33,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check if tag is a LATEST.
+        id: check_latest
+        run: |
+          TAG=$(echo "$GITHUB_REF" | sed -e 's:^refs/tags/::')  # e.g) v1.7.6
+          LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1) # e.g) v1.7.6
+
+          echo "IS_LATEST_RELEASE=$([ "${TAG}" = "${LATEST_TAG}" ] && echo true || echo false)" | tee -a $GITHUB_OUTPUT
+          echo "TAG=${TAG}" | tee -a $GITHUB_OUTPUT
       - name: Create release
-        id: create_release
-        uses: actions/create-release@v1.0.0
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          name: Release ${{ steps.check_latest.outputs.TAG }}
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+          make_latest: ${{ steps.check_latest.outputs.IS_LATEST_RELEASE }}
 
   publish-pypl:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'python'}}
