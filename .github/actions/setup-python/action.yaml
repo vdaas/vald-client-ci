@@ -32,7 +32,7 @@ runs:
         echo "version=${PYTHON_VERSION}" >> $GITHUB_OUTPUT
       env:
         PYTHON_VERSION: ${{ inputs.python_version }}
-    - uses: actions/setup-python@v3
+    - uses: actions/setup-python@v5
       with:
         python-version: ${{ steps.python_version.outputs.version }}
     - name: Check Python version

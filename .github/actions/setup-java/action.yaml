@@ -32,7 +32,7 @@ runs:
         echo "version=${JAVA_VERSION}" >> $GITHUB_OUTPUT
       env:
         JAVA_VERSION: ${{ inputs.java_version }}
-    - uses: actions/setup-java@v3
+    - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: ${{ steps.java_version.outputs.version }}

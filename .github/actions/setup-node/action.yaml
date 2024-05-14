@@ -32,7 +32,7 @@ runs:
         echo "version=${NODE_VERSION}" >> $GITHUB_OUTPUT
       env:
         NODE_VERSION: ${{ inputs.node_version }}
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ steps.node_version.outputs.version }}
         registry-url: 'https://registry.npmjs.org'
