@@ -42,9 +42,9 @@ jobs:
           LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1) # e.g) v1.7.6
 
           if [ "${TAG}" = "${LATEST_TAG}" ]; then
-            echo "IS_LATEST_RELEASE=true" | tee -a $GITHUB_OUTPUT↴
+            echo "IS_LATEST_RELEASE=true" | tee -a $GITHUB_OUTPUT
           else
-            echo "IS_LATEST_RELEASE=false" | tee -a $GITHUB_OUTPUT↴
+            echo "IS_LATEST_RELEASE=false" | tee -a $GITHUB_OUTPUT
           fi
       - name: Create release
         uses: softprops/action-gh-release@v2
