@@ -71,11 +71,11 @@ jobs:
       - name: Prepare for publish
         run: |
           make ci/package/prepare
-      # - name: Publish
-      #   uses: pypa/gh-action-pypi-publish@master
-      #   with:
-      #     user: ${{ secrets.PIP_USERNAME }}
-      #     password: ${{ secrets.PIP_TOKEN }}
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: ${{ secrets.PIP_USERNAME }}
+          password: ${{ secrets.PIP_TOKEN }}
 
   publish-npm:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'node'}}
@@ -90,11 +90,11 @@ jobs:
       - name: Prepare for publish
         run: |
           make ci/package/prepare
-      # - name: Publish
-      #   run: |
-      #     make ci/package/publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Publish
+        run: |
+          make ci/package/publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
   publish-maven:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'java'}}
@@ -112,9 +112,9 @@ jobs:
       - name: Prepare for publish
         run: |
           make ci/package/prepare
-      # - name: Publish
-      #   run: |
-      #     make ci/package/publish
+      - name: Publish
+        run: |
+          make ci/package/publish
 
   publish-clojars:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'clj'}}
@@ -126,9 +126,9 @@ jobs:
       - name: Prepare for publish
         run: |
           make ci/package/prepare
-      # - name: Publish
-      #   run: |
-      #     make ci/package/publish
-      #   env:
-      #     CLOJARS_USER: ${{ secrets.CLOJARS_USER }}
-      #     CLOJARS_PASS: ${{ secrets.CLOJARS_PASS }}
+      - name: Publish
+        run: |
+          make ci/package/publish
+        env:
+          CLOJARS_USER: ${{ secrets.CLOJARS_USER }}
+          CLOJARS_PASS: ${{ secrets.CLOJARS_PASS }}
