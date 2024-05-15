@@ -29,7 +29,7 @@ jobs:
           if git diff --quiet --exit-code; then
             echo "Nothing updated"
           else
-            git diff && git status && git add -A
+            git diff && git status
             echo "HAS_GIT_DIFF=true" >> $GITHUB_OUTPUT
           fi
       - name: Create PR
