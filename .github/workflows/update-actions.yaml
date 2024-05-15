@@ -29,7 +29,7 @@ jobs:
           if git diff --quiet --exit-code; then
             echo "Nothing updated"
           else
-            git diff && git status
+            git diff && git status && git add -A
             echo "HAS_GIT_DIFF=true" >> $GITHUB_OUTPUT
           fi
       - name: Create PR
@@ -40,9 +40,9 @@ jobs:
 
           PR_BODY="test"
 
-          gh pr create --base ${BRANCH_NAME} \
-                           --title "Update Actions dependency versions" \
-                           --body "${PR_BODY}"
+          gh pr create --base ${BASE_BRANCH_NAME} \
+                       --title "Update Actions dependency versions" \
+                       --body "${PR_BODY}"
           # git checkout ${BASE_BRANCH_NAME}
           # git checkout -b ${UPDATE_BRANCH_NAME} && git push origin ${UPDATE_BRANCH_NAME}
         # uses: peter-evans/create-pull-request@v6
