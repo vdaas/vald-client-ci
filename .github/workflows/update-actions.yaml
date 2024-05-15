@@ -46,7 +46,7 @@ jobs:
         if: ${{ steps.check_diff.outputs.HAS_GIT_DIFF == 'true' }}
         uses: peter-evans/create-pull-request@v6
         with:
-          author: "vdaas-ci <vald@vdaas.org>"
+          author: "${{ secrets.CI_USER }} <vald@vdaas.org>"
           token: ${{ secrets.CI_TOKEN }}
           signoff: true
           delete-branch: true
