@@ -24,6 +24,8 @@ jobs:
       - name: Check difference
         id: check_diff
         run: |
+          cat .github/workflows/update-actions.yaml
+
           if git diff --quiet --exit-code; then
             echo "Nothing updated"
           else
