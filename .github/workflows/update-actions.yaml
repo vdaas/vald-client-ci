@@ -33,7 +33,7 @@ jobs:
             echo "HAS_GIT_DIFF=true" >> $GITHUB_OUTPUT
           fi
       - name: Create PR
-        if: ${{ steps.check_diff.outputs.HAS_GIT_DIF == 'true' }}
+        if: ${{ steps.check_diff.outputs.HAS_GIT_DIFF == 'true' }}
         run: |
           BASE_BRANCH_NAME=main
           UPDATE_BRANCH_NAME=fix/update-actions
