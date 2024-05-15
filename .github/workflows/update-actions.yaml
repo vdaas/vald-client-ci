@@ -48,6 +48,8 @@ jobs:
         with:
           author: "${{ secrets.CI_USER }} <vald@vdaas.org>"
           token: ${{ secrets.CI_TOKEN }}
+          git-token: ${{ secrets.CI_TOKEN }}
+          committer: "${{ secrets.CI_USER }} <vald@vdaas.org>"
           signoff: true
           delete-branch: true
           base: fix/test-branch
