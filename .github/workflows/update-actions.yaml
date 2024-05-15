@@ -1,0 +1,17 @@
+name: Update Actions version
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+  pull_request:
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run update command
+        run: |
+          make update/actions
+          git diff
+          git diff --name-only
+          git status
