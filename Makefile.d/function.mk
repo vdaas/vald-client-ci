@@ -19,13 +19,13 @@ define update-github-actions
 				fi; \
 				if [ "$$ACTION_NAME" = "cirrus-actions/rebase" ]; then \
 					VERSION_PREFIX=$$VERSION; \
-					find $(ROOTDIR)/.github -type f -exec sed -i -e "/vdaas\/vald-client-ci\|vdaas\/vald\//! s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
+					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
 				elif echo $$VERSION | grep -qE '^[0-9]'; then \
 					VERSION_PREFIX=`echo $$VERSION | cut -c 1`; \
-					find $(ROOTDIR)/.github -type f -exec sed -i -e "/vdaas\/vald-client-ci\|vdaas\/vald\//! s%$$ACTION_NAME@.*%$$ACTION_NAME@v$$VERSION_PREFIX%g" {} +; \
+					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@v$$VERSION_PREFIX%g" {} +; \
 				else \
 					VERSION_PREFIX=$$VERSION; \
-					find $(ROOTDIR)/.github -type f -exec sed -i -e "/vdaas\/vald-client-ci\|vdaas\/vald\//! s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
+					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
 				fi; \
 			else \
 				echo "No action version file found for $$ACTION_NAME version file $$FILE_NAME" >&2; \
