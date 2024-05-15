@@ -44,10 +44,11 @@ jobs:
         if: ${{ steps.check_diff.outputs.HAS_GIT_DIFF == 'true' }}
         uses: peter-evans/create-pull-request@v6
         with:
-          base: fix/test-branch
+          author: "vdaas-ci <vald@vdaas.org>"
           git-token: ${{ secrets.CI_TOKEN }}
           signoff: true
           delete-branch: true
+          base: fix/test-branch
           title: "Update Actions dependency versions"
           body: "Automated pull request to update Actions."
 
