@@ -10,6 +10,8 @@ include Makefile.d/function.mk
 ## show variation of external actions
 list/actions:
 	make --version
+	apt install -y make
+	make --version
 	@echo $(ACTIONS_LIST)
 
 .PHONY: update/actions
