@@ -1,6 +1,3 @@
-ROOTDIR := $(shell git rev-parse --show-toplevel)
-ACTIONS_LIST := $(shell grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}')
-
 
 ROOTDIR := $(shell git rev-parse --show-toplevel)
 ACTIONS_GREP_OUTPUT := $(shell grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ > /tmp/actions_grep_output.txt && cat /tmp/actions_grep_output.txt)
