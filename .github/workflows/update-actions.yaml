@@ -6,7 +6,8 @@ on:
   pull_request:
 jobs:
   dump-contexts-to-log:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
       - uses: vdaas/vald/.github/actions/dump-context@main

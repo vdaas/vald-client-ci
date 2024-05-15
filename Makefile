@@ -2,8 +2,8 @@
 .PHONY: list/actions
 ## show variation of external actions
 list/actions:
+	make --version
 	@grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/
-
 
 .PHONY: update/actions
 # update github actions version
