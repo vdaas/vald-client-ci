@@ -20,12 +20,11 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Run update command
         run: |
+          make list/actions
           make update/actions
       - name: Check difference
         id: check_diff
         run: |
-          cat .github/workflows/update-actions.yaml
-
           if git diff --quiet --exit-code; then
             echo "Nothing updated"
           else
