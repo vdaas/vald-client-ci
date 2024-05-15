@@ -16,13 +16,16 @@ jobs:
           git diff --name-only
           git status
       - name: Check difference
+        id: check_diff
         run: |
           if git diff --quiet --exit-code; then
             echo "Nothing updated"
           else
-            git diff
+            git diff && git status
+            echo "HAS_GIT_DIFF=true" >> $GITHUB_OUTPUT
           fi
       - name: Create PR
+        if: ${{ steps.check_diff.outputs.HAS_GIT_DIF == 'true' }}
         run: |
           BASE_BRANCH_NAME=main
           UPDATE_BRANCH_NAME=fix/update-actions
