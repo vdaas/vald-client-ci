@@ -1,3 +1,4 @@
+SHELL := /bin/bash
 
 .PHONY: list/actions
 ## show variation of external actions
