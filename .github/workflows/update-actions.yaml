@@ -35,6 +35,8 @@ jobs:
       - name: Create PR
         if: ${{ steps.check_diff.outputs.HAS_GIT_DIFF == 'true' }}
         uses: peter-evans/create-pull-request@v6
+        with:
+          base: main
         # run: |
         #   BASE_BRANCH_NAME=main
         #   UPDATE_BRANCH_NAME=fix/update-actions
