@@ -1,3 +1,8 @@
+
+# NOTE:
+# The version of the local action inside the setup-language action also changes, so it is excluded from the `find` command.
+# As this is a special case, it was discussed to exclude it from the `find` command without using `sed` command to deal with it.
+
 define update-github-actions
 	@set -e; for ACTION_NAME in $1; do \
 		if [ -n "$$ACTION_NAME" ] && [ "$$ACTION_NAME" != "security-and-quality" ]; then \
@@ -22,7 +27,7 @@ define update-github-actions
 					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
 				elif echo $$VERSION | grep -qE '^[0-9]'; then \
 					VERSION_PREFIX=`echo $$VERSION | cut -c 1`; \
-					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@v$$VERSION_PREFIX%g" {} +; \
+					find $(ROOTDIR)/.github -type f -not -path "$(ROOTDIR)/.github/actions/setup-language/*" -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@v$$VERSION_PREFIX%g" {} +; \
 				else \
 					VERSION_PREFIX=$$VERSION; \
 					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
