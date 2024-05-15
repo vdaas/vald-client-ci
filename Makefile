@@ -3,12 +3,14 @@ ROOTDIR = $(eval ROOTDIR := $(or $(shell git rev-parse --show-toplevel), $(PWD))
 # ACTIONS_LIST := $(eval ACTIONS_LIST := $(shell grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}'))$(ACTIONS_LIST)
 ACTIONS_LIST := $(shell grep --include=\*.{yml,yaml} -rohE 'uses: .+' $(ROOTDIR)/.github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}')
 
+ACTION_BODY := $(shell cat $(ROOTDIR)/.github/workflows/release.yaml)
+
 include Makefile.d/function.mk
 
 .PHONY: list/actions
 ## show variation of external actions
 list/actions:
-	cat ./.github/workflows/release.yaml
+	@echo $(ACTION_BODY)
 	@echo $(ACTIONS_LIST)
 
 .PHONY: update/actions
