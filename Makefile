@@ -8,6 +8,7 @@ include Makefile.d/function.mk
 .PHONY: list/actions
 ## show variation of external actions
 list/actions:
+	cat ./.github/workflows/release.yaml
 	@echo $(ACTIONS_LIST)
 
 .PHONY: update/actions
