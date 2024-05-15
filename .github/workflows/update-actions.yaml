@@ -15,19 +15,12 @@ jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - name: Set Git config
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Run update command
         run: |
-          # ACTIONS_LIST=$(grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}')
-          # echo "${ACTIONS_LIST}"
-          # ACTIONS_LIST=$(grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}') make list/actions
-          # ACTIONS_LIST=$(grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}') make update/actions
-          # SHELL=bash make list/actions
-          # SHELL=bash make update/actions
-
           make list/actions
           make update/actions
       - name: Check difference

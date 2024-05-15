@@ -1,4 +1,3 @@
-
 SHELL=bash
 
 ROOTDIR = $(eval ROOTDIR := $(or $(shell git rev-parse --show-toplevel), $(PWD)))$(ROOTDIR)
