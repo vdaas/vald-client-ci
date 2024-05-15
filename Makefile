@@ -6,11 +6,13 @@ ACTIONS_LIST := $(shell awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); p
 .PHONY: list/actions
 ## show variation of external actions
 list/actions:
-	@echo "ROOTDIR=$(ROOTDIR)"
-	@echo "ACTIONS_GREP_OUTPUT=$(ACTIONS_GREP_OUTPUT)"
-	@echo "ACTIONS_LIST=$(ACTIONS_LIST)"
+	@grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ > /tmp/actions_grep_output.txt
+	@echo "Grep output:"
 	@cat /tmp/actions_grep_output.txt
+	@awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}' /tmp/actions_grep_output.txt > /tmp/actions_list.txt
+	@echo "Actions list:"
 	@cat /tmp/actions_list.txt
+
 
 .PHONY: update/actions
 # update github actions version
