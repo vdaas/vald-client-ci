@@ -20,7 +20,7 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Run update command
         run: |
-          la -a
+          ls -a
           make list/actions
           make update/actions
       - name: Check difference
