@@ -20,7 +20,6 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Run update command
         run: |
-          grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}'
           make list/actions
           make update/actions
       - name: Check difference
