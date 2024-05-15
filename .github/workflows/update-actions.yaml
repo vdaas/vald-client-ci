@@ -5,6 +5,12 @@ on:
     - cron: '0 * * * *'
   pull_request:
 jobs:
+  dump-contexts-to-log:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vdaas/vald/.github/actions/dump-context@main
+
   update-version:
     runs-on: ubuntu-latest
     steps:
