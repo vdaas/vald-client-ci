@@ -6,8 +6,7 @@ on:
   pull_request:
 jobs:
   dump-contexts-to-log:
-    # runs-on: ubuntu-latest
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: vdaas/vald/.github/actions/dump-context@main
@@ -52,42 +51,5 @@ jobs:
           signoff: true
           delete-branch: true
           base: fix/test-branch
-          title: "Update Actions dependency versions"
+          title: "Update Actions dependency"
           body: "Automated pull request to update Actions."
-
-
-      # - name: Create PR
-      #   if: ${{ steps.check_diff.outputs.HAS_GIT_DIFF == 'true' }}
-      #   run: |
-      #     BASE_BRANCH_NAME=main
-      #     UPDATED_BRANCH_NAME=fix/update-actions
-      #
-      #     PR_TITLE="Update Actions dependency versions"
-      #     PR_BODY="Automated pull request to update Actions."
-      #
-      #     git add -A
-      #     git checkout ${BASE_BRANCH_NAME}
-      #     git checkout -b ${UPDATED_BRANCH_NAME} && git push origin ${UPDATED_BRANCH_NAME}
-      #
-      #     git commit -S --signoff -m ":robot: ${PR_TITLE}"
-      #
-      #     gh pr create --base ${BASE_BRANCH_NAME} \
-      #                  --title "${PR_TITLE}" \
-      #                  --body "${PR_BODY}"
-          # git checkout ${BASE_BRANCH_NAME}
-          # git checkout -b ${UPDATE_BRANCH_NAME} && git push origin ${UPDATE_BRANCH_NAME}
-        # uses: peter-evans/create-pull-request@v6
-        # with:
-        #   base: main
-        # run: |
-        #   BASE_BRANCH_NAME=main
-        #   UPDATE_BRANCH_NAME=fix/update-actions
-        #
-        #   git checkout ${BASE_BRANCH_NAME}
-        #   git checkout -b ${UPDATE_BRANCH_NAME} && git push origin ${UPDATE_BRANCH_NAME}
-      #
-      #     gh pr create --base ${BASE_BRANCH_NAME} \
-      #                  --title "Backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
-      #                  --body "${PR_BODY}"
-      #
-      #     echo "hello"
