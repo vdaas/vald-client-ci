@@ -30,7 +30,6 @@ jobs:
           git_commit_gpgsign: true
       - name: Run update command
         run: |
-          make list/actions
           make update/actions
       - name: Check difference
         id: check_diff
@@ -43,16 +42,34 @@ jobs:
           fi
       - name: Create PR
         if: ${{ steps.check_diff.outputs.HAS_GIT_DIFF == 'true' }}
-        run: |
-          BASE_BRANCH_NAME=main
-          UPDATE_BRANCH_NAME=fix/update-actions
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: main
+          git-token: ${{ secrets.CI_TOKEN }}
+          signoff: true
+          delete-branch: true
+          title: "Update Actions dependency versions"
+          body: "Automated pull request to update Actions."
 
-          PR_TITLE="Update Actions dependency versions"
-          PR_BODY="Automated pull request to update Actions."
 
-          gh pr create --base ${BASE_BRANCH_NAME} \
-                       --title "${PR_TITLE}" \
-                       --body "${PR_BODY}"
+      # - name: Create PR
+      #   if: ${{ steps.check_diff.outputs.HAS_GIT_DIFF == 'true' }}
+      #   run: |
+      #     BASE_BRANCH_NAME=main
+      #     UPDATED_BRANCH_NAME=fix/update-actions
+      #
+      #     PR_TITLE="Update Actions dependency versions"
+      #     PR_BODY="Automated pull request to update Actions."
+      #
+      #     git add -A
+      #     git checkout ${BASE_BRANCH_NAME}
+      #     git checkout -b ${UPDATED_BRANCH_NAME} && git push origin ${UPDATED_BRANCH_NAME}
+      #
+      #     git commit -S --signoff -m ":robot: ${PR_TITLE}"
+      #
+      #     gh pr create --base ${BASE_BRANCH_NAME} \
+      #                  --title "${PR_TITLE}" \
+      #                  --body "${PR_BODY}"
           # git checkout ${BASE_BRANCH_NAME}
           # git checkout -b ${UPDATE_BRANCH_NAME} && git push origin ${UPDATE_BRANCH_NAME}
         # uses: peter-evans/create-pull-request@v6
