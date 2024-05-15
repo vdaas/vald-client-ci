@@ -25,8 +25,8 @@ jobs:
           # echo "${ACTIONS_LIST}"
           # ACTIONS_LIST=$(grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}') make list/actions
           # ACTIONS_LIST=$(grep --include=\*.{yml,yaml} -rohE 'uses: .+' .github/ | awk '!/\.github/ && !seen[$$0]++ {sub(/@.*/, "", $$0); print substr($$0, 7)}') make update/actions
-          SHELL=/bin/bash make list/actions
-          SHELL=/bin/bash make update/actions
+          SHELL=bash make list/actions
+          SHELL=bash make update/actions
       - name: Check difference
         id: check_diff
         run: |
