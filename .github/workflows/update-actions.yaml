@@ -15,3 +15,23 @@ jobs:
           git diff
           git diff --name-only
           git status
+      - name: Check difference
+        run: |
+          if git diff --quiet --exit-code; then
+            echo "Nothing updated"
+          else
+            git diff
+          fi
+      - name: Create PR
+        run: |
+          BASE_BRANCH_NAME=main
+          UPDATE_BRANCH_NAME=fix/update-actions
+
+          git checkout ${BASE_BRANCH_NAME}
+          git checkout -b ${UPDATE_BRANCH_NAME} && git push origin ${UPDATE_BRANCH_NAME}
+      #
+      #     gh pr create --base ${BASE_BRANCH_NAME} \
+      #                  --title "Backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
+      #                  --body "${PR_BODY}"
+      #
+      #     echo "hello"
