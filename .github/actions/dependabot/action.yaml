@@ -46,8 +46,9 @@ runs:
         for i in $(seq 0 $((${CHANGED_LIST_NUM}-1))); do
           NAME=$(echo "${CHANGED_LIST}" | yq ".[${i}].name")
           CONTENT=$(echo "${CHANGED_LIST}" | yq ".[${i}].content")
+
           echo "CONTENT=${CONTENT}"
-          echo "NAME=${NAME}"
+          echo "NAME=${NAME}"      # e.g) ./github/actions/dependabot/action.yaml
           echo "${CONTENT}" > "${NAME}"
         done
       env:
