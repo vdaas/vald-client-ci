@@ -40,6 +40,11 @@ runs:
                           --local . \
                           --output /tmp/dependabot-result.yaml
 
+        if ! hash yq 2> /dev/null; then
+          echo "yq is not installed. Please install yq to proceed."
+          exit 1
+        fi
+
         CHANGED_LIST=$(yq e '.output[] | select(.type == "create_pull_request") | .expect.data.updated-dependency-files' /tmp/dependabot-result.yaml)
         CHANGED_LIST_NUM=$(echo "${CHANGED_LIST}" | yq '. | length')
 
