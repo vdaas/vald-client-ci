@@ -68,6 +68,6 @@ jobs:
           committer: "${{ secrets.CI_USER }} <vald@vdaas.org>"
           signoff: true
           delete-branch: true
-          base: verify/ci/dependabot
+          base: main
           title: "Bump dependencies updates"
           body: "Automated pull request to update dependencies."
