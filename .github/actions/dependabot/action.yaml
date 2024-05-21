@@ -38,9 +38,9 @@ runs:
       run: |
         dependabot update --file ${CONFIG_FILE_PATH} \
                           --local . \
-                          --output dependabot-result.yaml
+                          --output /tmp/dependabot-result.yaml
 
-        CHANGED_LIST=$(yq e '.output[] | select(.type == "create_pull_request") | .expect.data.updated-dependency-files' dependabot-result.yaml)
+        CHANGED_LIST=$(yq e '.output[] | select(.type == "create_pull_request") | .expect.data.updated-dependency-files' /tmp/dependabot-result.yaml)
         CHANGED_LIST_NUM=$(echo "${CHANGED_LIST}" | yq '. | length')
 
         for i in $(seq 0 $((${CHANGED_LIST_NUM}-1))); do
