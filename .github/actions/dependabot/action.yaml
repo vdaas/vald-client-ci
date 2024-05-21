@@ -1,0 +1,60 @@
+#
+# Copyright (C) 2019-2024 vdaas.org vald team <vald@vdaas.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: "Update dependencies"
+description: "An action to update dependencies"
+inputs:
+  config_file_path:
+    description: "Set config file path for dependabot CLI"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependabot CLI
+      shell: bash
+      run: |
+        if ! hash dependabot 2> /dev/null; then
+          curl -fsSL -o ${DEPENDABOT_CLI_TAR_FILE_NAME} $(curl -fsSL ${DEPENDABOT_CLI_URL} | grep "browser_download_url.*linux-amd64.tar.gz" | cut -d '"' -f 4)
+          tar -xvf ${DEPENDABOT_CLI_TAR_FILE_NAME} && sudo mv ./dependabot /usr/local/bin/ && rm -rf ${DEPENDABOT_CLI_TAR_FILE_NAME}
+        fi
+      env:
+        DEPENDABOT_CLI_URL: https://api.github.com/repos/dependabot/cli/releases/latest
+        DEPENDABOT_CLI_TAR_FILE_NAME: dependabot.tar.gz
+    - name: Update dependencies
+      shell: bash
+      run: |
+        dependabot update --file ${CONFIG_FILE_PATH} \
+                          --local . \
+                          --output /tmp/dependabot-result.yaml
+
+        if ! hash yq 2> /dev/null; then
+          echo "yq is not installed. Please install yq to proceed."
+          exit 1
+        fi
+
+        CHANGED_LIST=$(yq e '.output[] | select(.type == "create_pull_request") | .expect.data.updated-dependency-files' /tmp/dependabot-result.yaml)
+        CHANGED_LIST_NUM=$(echo "${CHANGED_LIST}" | yq '. | length')
+
+        for i in $(seq 0 $((${CHANGED_LIST_NUM}-1))); do
+          NAME=$(echo "${CHANGED_LIST}" | yq ".[${i}].name")
+          CONTENT=$(echo "${CHANGED_LIST}" | yq ".[${i}].content")
+
+          echo "CONTENT=${CONTENT}"
+          echo "NAME=${NAME}"      # e.g) ./github/actions/dependabot/action.yaml
+          echo "${CONTENT}" > "${NAME}"
+        done
+      env:
+        CONFIG_FILE_PATH: ${{ inputs.config_file_path }}
