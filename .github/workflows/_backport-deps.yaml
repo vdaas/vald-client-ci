@@ -1,0 +1,98 @@
+#
+# Copyright (C) 2019-2024 vdaas.org vald team <vald@vdaas.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: "Run backport deps update PR"
+on:
+  workflow_call:
+    secrets:
+      CI_TOKEN:
+        required: true
+      GPG_PRIVATE_KEY:
+        required: true
+
+env:
+  DEPS_UPDATE_PR_TITLE_REGEX: "^(chore\\(deps\\): bump|\\[Snyk\\])"
+  BACKPORT_BRANCH_NAME_PREFIX: "backport"
+  FETCHED_GITHUB_INFO_PATH: github_info.json
+
+jobs:
+  backport:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.CI_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.CI_TOKEN }}
+      - name: Set Git config
+        run: |
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
+      - uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+      - name: Fetch all branches
+        run: |
+          git fetch --all
+      - name: Get PR info
+        id: get_pr
+        run: |
+          gh pr list --limit 10 --json number,title,body,labels,headRefName,headRefOid,mergeCommit --state merged |
+            jq --arg oid "${GITHUB_SHA}" '.[] | select(.mergeCommit.oid == $oid)' > ${FETCHED_GITHUB_INFO_PATH}
+          cat ${FETCHED_GITHUB_INFO_PATH}
+
+          PR_NUM=$(cat ${FETCHED_GITHUB_INFO_PATH} | jq -r --arg REGEX "${DEPS_UPDATE_PR_TITLE_REGEX}" 'select(.title | test($REGEX)) | .number')
+          echo "PR_NUM=${PR_NUM}" | tee -a $GITHUB_OUTPUT
+          echo "${GITHUB_SHA}"
+      - name: Get all release branches
+        id: get_branch
+        run: |
+          RELEASE_BRANCHES=$(git branch -r | tr -d ' ' | grep '^origin/release/v[0-9]\+\.[0-9]\+' | sed 's/origin\///g' | tr '\n' ' ' | sed 's/ $//')
+          if [ -z "${RELEASE_BRANCHES}" ]; then
+            echo "There are no release branches."
+          fi
+          echo "RELEASE_BRANCHES=${RELEASE_BRANCHES}" | tee -a $GITHUB_OUTPUT
+      - name: Create PR
+        if: ${{ steps.get_branch.outputs.RELEASE_BRANCHES != '' && steps.get_pr.outputs.PR_NUM != '' }}
+        env:
+          RELEASE_BRANCHES: ${{ steps.get_branch.outputs.RELEASE_BRANCHES }}
+        run: |
+          PR_TITLE=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".title"`
+          PR_BODY=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".body"`
+          PR_NUM=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".number"`
+          PR_BRANCH_NAME=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".headRefName"`
+
+          echo "${PR_NUM} ${PR_TITLE}: ${PR_BODY}"
+
+          for BRANCH_NAME in ${RELEASE_BRANCHES}; do
+              BACKPORT_BRANCH_NAME="${BACKPORT_BRANCH_NAME_PREFIX}/${BRANCH_NAME}/${PR_BRANCH_NAME}"   # e.g) backport/release/vx.x/{current branch name}
+
+              echo "BRANCH_NAME=${BRANCH_NAME}"
+              echo "BACKPORT_BRANCH_NAME=${BACKPORT_BRANCH_NAME}"
+              echo "SHA=${GITHUB_SHA}"
+
+              git checkout ${BRANCH_NAME}
+              git checkout -b ${BACKPORT_BRANCH_NAME}
+
+              # Force cherry-pick. The conflicts will be modified within the backport PR.
+              git cherry-pick ${GITHUB_SHA} || (git add -A && git cherry-pick --continue --no-edit)
+              git push origin ${BACKPORT_BRANCH_NAME}
+
+              gh pr create --base ${BRANCH_NAME} \
+                           --title "Backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
+                           --body "${PR_BODY}"
+          done
