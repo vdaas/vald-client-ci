@@ -25,6 +25,7 @@ on:
 env:
   DEPS_UPDATE_PR_TITLE_REGEX: "^(chore\\(deps\\): bump|\\[Snyk\\])"
   BACKPORT_BRANCH_NAME_PREFIX: "backport"
+  BACKPORT_PR_TITLE_PREFIX: "chore(deps): bump"
   FETCHED_GITHUB_INFO_PATH: github_info.json
 
 jobs:
@@ -93,6 +94,6 @@ jobs:
               git push origin ${BACKPORT_BRANCH_NAME}
 
               gh pr create --base ${BRANCH_NAME} \
-                           --title "Backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
+                           --title "${BACKPORT_PR_TITLE_PREFIX} backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
                            --body "${PR_BODY}"
           done
