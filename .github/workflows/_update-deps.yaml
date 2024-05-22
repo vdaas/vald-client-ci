@@ -67,5 +67,5 @@ jobs:
           signoff: true
           delete-branch: true
           base: main
-          title: "Bump dependencies updates"
+          title: "chore(deps): bump dependency updates"
           body: "Automated pull request to update dependencies."
