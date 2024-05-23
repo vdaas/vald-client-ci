@@ -43,8 +43,10 @@ jobs:
           author: "${{ secrets.CI_USER }} <vald@vdaas.org>"
           token: ${{ secrets.CI_TOKEN }}
           committer: "${{ secrets.CI_USER }} <vald@vdaas.org>"
+          commit-message: "automated changes"
           signoff: true
           delete-branch: true
           base: main
-          title: "Update Actions dependency"
-          body: "Automated pull request to update Actions."
+          branch: chore/update-actions
+          title: "chore(deps): bump GitHub Actions dependency updates"
+          body: "Automated pull request to update GitHub Actions dependencies."

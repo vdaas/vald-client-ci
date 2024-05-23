@@ -21,6 +21,10 @@ on:
         description: "Set config file path for dependabot CLI"
         type: string
         required: true
+      pr_branch_name:
+        description: "Set the branch name for PR creation"
+        type: string
+        required: true
     secrets:
       CI_USER:
         required: true
@@ -64,8 +68,10 @@ jobs:
           author: "${{ secrets.CI_USER }} <vald@vdaas.org>"
           token: ${{ secrets.CI_TOKEN }}
           committer: "${{ secrets.CI_USER }} <vald@vdaas.org>"
+          commit-message: "automated changes"
           signoff: true
           delete-branch: true
           base: main
-          title: "Bump dependencies updates"
+          branch: ${{ inputs.pr_branch_name }}
+          title: "chore(deps): bump dependency updates"
           body: "Automated pull request to update dependencies."
