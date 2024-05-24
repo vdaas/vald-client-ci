@@ -36,9 +36,9 @@ runs:
     - name: Update dependencies
       shell: bash
       run: |
-        dependabot update --file ${CONFIG_FILE_PATH} \
-                          --local . \
-                          --output /tmp/dependabot-result.yaml
+        dependabot test --file ${CONFIG_FILE_PATH} \
+                        --local . \
+                        --output /tmp/dependabot-result.yaml
 
         if ! hash yq 2> /dev/null; then
           echo "yq is not installed. Please install yq to proceed."
