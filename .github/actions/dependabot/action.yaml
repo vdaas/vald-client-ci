@@ -36,7 +36,7 @@ runs:
     - name: Update dependencies
       shell: bash
       run: |
-        dependabot update --file ${CONFIG_FILE_PATH} \
+        dependabot test --file ${CONFIG_FILE_PATH} \
                           --local . \
                           --output /tmp/dependabot-result.yaml
 
