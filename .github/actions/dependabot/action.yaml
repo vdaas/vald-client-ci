@@ -55,8 +55,8 @@ runs:
 
           echo "CONTENT=${CONTENT}"
           echo "DIRECTORY_NAME=.${DIRECTORY_NAME}" # e.g) ./, ./example, ./example-ts, ...
-          echo "FILE_NAME=${FILE_NAME}" # e.g) .github
-          echo "${CONTENT}" > "${DIRECTORY_NAME}/${FILE_NAME}"
+          echo "FILE_NAME=${FILE_NAME}" # e.g) package.json, .github/workflow/test.yaml
+          echo "${CONTENT}" > "${DIRECTORY_NAME%/}${FILE_NAME}"
         done
       env:
         CONFIG_FILE_PATH: ${{ inputs.config_file_path }}
