@@ -44,7 +44,7 @@ jobs:
       - name: Set Git config
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
-      - uses: vdaas/vald-client-ci/.github/actions/dependabot@fix/add-directory-name
+      - uses: vdaas/vald-client-ci/.github/actions/dependabot@main
         with:
           config_file_path: ${{ inputs.config_file_path }}
       # NOTE: When running dependabot cli, if the gpg action is set before the dependabot action, it fails during Node.js dependency updates
