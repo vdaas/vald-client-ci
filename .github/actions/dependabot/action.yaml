@@ -49,12 +49,14 @@ runs:
         CHANGED_LIST_NUM=$(echo "${CHANGED_LIST}" | yq '. | length')
 
         for i in $(seq 0 $((${CHANGED_LIST_NUM}-1))); do
-          NAME=$(echo "${CHANGED_LIST}" | yq ".[${i}].name")
+          FILE_NAME=$(echo "${CHANGED_LIST}" | yq ".[${i}].name")
+          DIRECTORY_NAME=".$(echo "${CHANGED_LIST}" | yq ".[${i}].directory")"
           CONTENT=$(echo "${CHANGED_LIST}" | yq ".[${i}].content")
 
           echo "CONTENT=${CONTENT}"
-          echo "NAME=${NAME}"      # e.g) ./github/actions/dependabot/action.yaml
-          echo "${CONTENT}" > "${NAME}"
+          echo "DIRECTORY_NAME=${DIRECTORY_NAME}" # e.g) ./, ./example, ./example-ts, ...
+          echo "FILE_NAME=${FILE_NAME}"           # e.g) package.json, .github/workflow/test.yaml
+          echo "${CONTENT}" > "${DIRECTORY_NAME%/}/${FILE_NAME}"
         done
       env:
         CONFIG_FILE_PATH: ${{ inputs.config_file_path }}
