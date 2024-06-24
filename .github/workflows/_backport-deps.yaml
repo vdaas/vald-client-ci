@@ -75,7 +75,9 @@ jobs:
           PR_NUM=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".number"`
           PR_BRANCH_NAME=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".headRefName"`
 
-          rm -rf ${FETCHED_GITHUB_INFO_PATH}
+          if [ -f ${FETCHED_GITHUB_INFO_PATH} ]; then
+            rm -rf ${FETCHED_GITHUB_INFO_PATH}
+          fi
           echo "${PR_NUM} ${PR_TITLE}: ${PR_BODY}"
 
           for BRANCH_NAME in ${RELEASE_BRANCHES}; do
