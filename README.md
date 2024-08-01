@@ -1,6 +1,6 @@
 # GitHub Actions CI workflows, actions for Vald client
 
-A repository of workflows and actions for Vald client CI configuration.
+This repository contains common workflows and actions for the following Vald clients.
 
 - [vald-client-go](https://github.com/vdaas/vald-client-go)
 - [vald-client-node](https://github.com/vdaas/vald-client-node)
@@ -19,7 +19,7 @@ A repository of workflows and actions for Vald client CI configuration.
   - This automation helps maintain alignment and reduces manual effort in keeping repositories synchronized.
 
 - [Release](./.github/workflows/release.yaml)
-  - This workflow is designed to handle the release process, including  packaging the Vald client for distribution.
+  - This workflow is designed to handle the release process, including packaging the Vald client for distribution.
   - It also handles the publication to external package repositories, ensuring that the released versions are available to the community.
     - For Python projects, the release is published to [PyPi](https://pypi.org/project/vald-client-python/), allowing Python users to install via `pip`.
     - For Node.js projects, you can find the release on [npm](https://www.npmjs.com/package/vald-client-node) and install it using `npm install`.
