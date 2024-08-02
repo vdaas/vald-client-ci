@@ -67,21 +67,21 @@ jobs:
           client_type: ${{ inputs.client_type }}
       - name: Clone Vald repository
         run: |
-          make VALD_CHECKOUT_REF=${VALD_CHECKOUT_REF} vald/checkout
+          make REPO=vdaas VALD_CHECKOUT_REF=${VALD_CHECKOUT_REF} vald/checkout
         env:
           VALD_CHECKOUT_REF: ${{ inputs.vald_checkout_src_ref }}
       - name: Install dependencies
         run: |
-          make ci/deps/install
+          make REPO=vdaas ci/deps/install
       - name: Build proto
         run: |
           export GOPATH=$HOME/go
           export PATH=$HOME/grpc-java:$PATH
-          make proto
+          make REPO=vdaas proto
       - name: Update SHA and client version
         run: |
-          make vald/sha/update
-          make vald/client/version/update
+          make REPO=vdaas vald/sha/update
+          make REPO=vdaas vald/client/version/update
       - name: Change Go version after client version updates
         uses: vdaas/vald-client-ci/.github/actions/setup-language@main
         if: ${{ inputs.client_type == 'go' }}
@@ -89,10 +89,10 @@ jobs:
           client_type: ${{ inputs.client_type }}
       - name: Update dependencies
         run: |
-          make ci/deps/update
+          make REPO=vdaas ci/deps/update
       - name: Commit
         run: |
-          SHA="$(make vald/sha/print)"
+          SHA="$(make REPO=vdaas vald/sha/print)"
 
           git remote set-url origin https://${CI_USER}:${CI_TOKEN}@github.com/$GITHUB_REPOSITORY
           git add .
@@ -111,7 +111,7 @@ jobs:
         if: ${{ inputs.enable_tag_push == true }}
         continue-on-error: true
         run: |
-          version="$(make vald/client/version/print)"
+          version="$(make REPO=vdaas vald/client/version/print)"
           git remote set-url origin "https://${CI_USER}:${CI_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git tag ${version}
           git push origin ${version}
