@@ -36,7 +36,7 @@ runs:
       if: ${{ inputs.client_type == 'python' }}
       uses: vdaas/vald-client-ci/.github/actions/setup-python@main
     - name: Setup Java environment
-      if: ${{ inputs.client_type == 'java' }}
+      if: ${{ inputs.client_type == 'java' || inputs.client_type == 'clj' }}
       uses: vdaas/vald-client-ci/.github/actions/setup-java@main
     - name: Setup Clojure environment
       if: ${{ inputs.client_type == 'clj' }}
