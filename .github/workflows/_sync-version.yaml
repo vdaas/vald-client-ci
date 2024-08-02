@@ -38,6 +38,9 @@ env:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/vdaas/vald/vald-ci-container:nightly
+      options: "--add-host host.docker.internal:host-gateway"
     outputs:
       RELEASE_BRANCH_NAME: ${{ steps.create_release_branch.outputs.RELEASE_BRANCH_NAME }}
     steps:

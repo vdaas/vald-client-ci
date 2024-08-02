@@ -28,6 +28,9 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     if: "${{ github.event.pull_request.user.login == 'dependabot[bot]' || ( github.event.pull_request.user.login == 'vdaas-ci' && startsWith(github.event.pull_request.title, 'chore(deps): bump') ) || startsWith(github.event.pull_request.title, '[Snyk]') }}"
+    container:
+      image: ghcr.io/vdaas/vald/vald-ci-container:nightly
+      options: "--add-host host.docker.internal:host-gateway"
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
