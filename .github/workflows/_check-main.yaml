@@ -34,7 +34,7 @@ on:
 
 jobs:
   check-main:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       NEED_UPDATE: ${{ steps.check_sha.outputs.NEED_UPDATE }}
     steps:
