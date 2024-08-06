@@ -57,10 +57,16 @@ jobs:
   publish-pypl:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'python'}}
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/vdaas/vald/vald-ci-container:nightly
+      options: "--add-host host.docker.internal:host-gateway"
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
+      - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+        with:
+          client_type: python
       - name: Install dependencies
         run: |
           make REPO=vdaas ci/deps/install
@@ -82,7 +88,7 @@ jobs:
           fetch-depth: 1
       - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
         with:
-          client_type: ${{ inputs.client_type }}
+          client_type: node
       - name: Prepare for publish
         run: |
           make REPO=vdaas ci/package/prepare
@@ -105,6 +111,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
+      - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+        with:
+          client_type: java
       - name: Prepare for publish
         run: |
           make REPO=vdaas ci/package/prepare
@@ -119,6 +128,9 @@ jobs:
       - release
     steps:
       - uses: actions/checkout@v4
+      - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+        with:
+          client_type: clj
       - name: Prepare for publish
         run: |
           make REPO=vdaas ci/package/prepare
