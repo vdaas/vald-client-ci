@@ -33,6 +33,9 @@ jobs:
       options: "--add-host host.docker.internal:host-gateway"
     steps:
       - uses: actions/checkout@v4
+      - uses: vdaas/vald-client-ci/.github/actions/setup-language@main
+        with:
+          client_type: ${{ inputs.client_type }}
       - name: Install dependencies
         run: |
           make REPO=vdaas ci/deps/install
