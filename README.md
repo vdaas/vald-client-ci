@@ -6,7 +6,6 @@ This repository contains common workflows and actions for the following Vald cli
 - [vald-client-node](https://github.com/vdaas/vald-client-node)
 - [vald-client-python](https://github.com/vdaas/vald-client-python)
 - [vald-client-java](https://github.com/vdaas/vald-client-java)
-- [vald-client-clj](https://github.com/vdaas/vald-client-clj)
 
 ## The workflows/actions
 
@@ -24,7 +23,6 @@ This repository contains common workflows and actions for the following Vald cli
     - For Python projects, the release is published to [PyPi](https://pypi.org/project/vald-client-python/), allowing Python users to install via `pip`.
     - For Node.js projects, you can find the release on [npm](https://www.npmjs.com/package/vald-client-node) and install it using `npm install`.
     - For Java projects, Maven artifacts are available [here](https://central.sonatype.com/artifact/org.vdaas.vald/vald-client-java) for integration into projects.
-    - For Clojure projects, Clojars artifacts are available [here](https://clojars.org/vald-client-clj) for integration into projects.
 
 ### Actions
 
@@ -50,7 +48,7 @@ jobs:
   sync:
     uses: vdaas/vald-client-ci/.github/workflows/sync.yaml@main
     with:
-      client_type: python # go, node, java, clj
+      client_type: python # go, node, java
     secrets:
       CI_USER: ${{ secrets.YOUR_CI_USER }}  # The CI user to be used in your environment
       CI_TOKEN: ${{ secrets.YOUR_CI_TOKEN }}  # The CI token for accessing the repository in your environment
@@ -72,7 +70,7 @@ jobs:
   release:
     uses: vdaas/vald-client-ci/.github/workflows/release.yaml@main
     with:
-      client_type: python # go, node, java, clj
+      client_type: python # go, node, java
     secrets: inherit
 
 ```
@@ -96,7 +94,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: vdaas/vald-client-ci/.github/actions/e2e@main
         with:
-          client_type: python # go, node, java, clj
+          client_type: python # go, node, java
 ````
 
 ## :warning: Important Notes
@@ -134,12 +132,6 @@ Be sure to carefully manage and configure secrets used in these workflows. Impro
 - `SONATYPE_USERNAME`: The username for accessing the Sonatype repository (like Maven Central), where Java packages are published.
 
 - `SONATYPE_PASSWORD`: The password for the Sonatype repository, used alongside the username for authentication.
-
-#### Required Secrets for vald-client-clj
-
-- `CLOJARS_USER`: The username for Clojars, required to publish Clojure packages.
-
-- `CLOJARS_PASS`: The password for Clojars, used for authentication when publishing Clojure packages.
 
 ### Required `make` Command
 

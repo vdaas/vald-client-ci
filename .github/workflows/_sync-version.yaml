@@ -28,7 +28,7 @@ on:
         required: false
       client_type:
         type: "string"
-        description: "Set client type. e.g) go, python, node, java, clj"
+        description: "Set client type. e.g) go, python, node, java"
         required: true
 
 env:

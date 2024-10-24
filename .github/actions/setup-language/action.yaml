@@ -21,7 +21,7 @@ inputs:
     required: false
     default: ""
   client_type:
-    description: "Set client type. e.g) go, python, node, java, clj"
+    description: "Set client type. e.g) go, python, node, java"
     required: true
 runs:
   using: "composite"
@@ -36,8 +36,5 @@ runs:
       if: ${{ inputs.client_type == 'python' }}
       uses: vdaas/vald-client-ci/.github/actions/setup-python@main
     - name: Setup Java environment
-      if: ${{ inputs.client_type == 'java' || inputs.client_type == 'clj' }}
+      if: ${{ inputs.client_type == 'java' }}
       uses: vdaas/vald-client-ci/.github/actions/setup-java@main
-    - name: Setup Clojure environment
-      if: ${{ inputs.client_type == 'clj' }}
-      uses: vdaas/vald-client-ci/.github/actions/setup-clj@main
