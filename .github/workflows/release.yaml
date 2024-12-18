@@ -59,7 +59,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/vdaas/vald/vald-ci-container:nightly
-      options: "--add-host host.docker.internal:host-gateway"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -74,10 +73,11 @@ jobs:
         run: |
           make REPO=vdaas ci/package/prepare
       - name: Publish
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@v1.11.0
         with:
           user: ${{ secrets.PIP_USERNAME }}
           password: ${{ secrets.PIP_TOKEN }}
+          attestations: false
 
   publish-npm:
     if: ${{ startsWith( github.ref, 'refs/tags/') && inputs.client_type == 'node'}}
