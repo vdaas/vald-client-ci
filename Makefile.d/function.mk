@@ -26,8 +26,9 @@ define update-github-actions
 					VERSION_PREFIX=$$VERSION; \
 					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
 				elif [ "$$ACTION_NAME" = "pypa/gh-action-pypi-publish" ]; then \
-					VERSION_PREFIX=`echo $$VERSION | sed -E "s%^([0-9]+)\..*$$%release/v\1%"`; \
-					find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
+					# VERSION_PREFIX=`echo $$VERSION | sed -E "s%^([0-9]+)\..*$$%release/v\1%"`; \
+					# find $(ROOTDIR)/.github -type f -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@$$VERSION_PREFIX%g" {} +; \
+					echo "Lock pypa/gh-action-pypi-publish version to v1.11.0"; \
 				elif echo $$VERSION | grep -qE '^[0-9]'; then \
 					VERSION_PREFIX=`echo $$VERSION | cut -c 1`; \
 					find $(ROOTDIR)/.github -type f -not -path "$(ROOTDIR)/.github/actions/setup-language/*" -exec sed -i "s%$$ACTION_NAME@.*%$$ACTION_NAME@v$$VERSION_PREFIX%g" {} +; \
