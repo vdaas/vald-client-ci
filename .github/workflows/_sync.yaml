@@ -59,7 +59,7 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Restore latest Makefile
         run: |
-          git restore --source=origin/main -- Makefile
+          git restore --source=origin/main -- Makefile .github README.md .gitignore
           rm -rf Makefile.d/k3d.mk LICENSE
           curl -fsSL https://raw.githubusercontent.com/vdaas/vald-client-ci/refs/heads/main/Makefile.d/k3d.mk -o Makefile.d/k3d.mk
           curl -fsSLO https://raw.githubusercontent.com/vdaas/vald/refs/heads/main/LICENSE
