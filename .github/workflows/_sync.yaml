@@ -65,7 +65,7 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/vdaas/vald-client-ci/refs/heads/main/Makefile.d/variables.mk -o Makefile.d/variables.mk
           curl -fsSLO https://raw.githubusercontent.com/vdaas/vald/refs/heads/main/LICENSE
           if ! grep -q "include Makefile.d/variables.mk" Makefile; then
-            echo "include Makefile.d/variables.mk" >> Makefile
+            echo "\ninclude Makefile.d/variables.mk" >> Makefile
           fi
       - uses: crazy-max/ghaction-import-gpg@v6
         with:
