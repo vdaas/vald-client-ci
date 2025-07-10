@@ -107,6 +107,7 @@ jobs:
       PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
