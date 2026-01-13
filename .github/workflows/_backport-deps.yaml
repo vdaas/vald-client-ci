@@ -95,6 +95,13 @@ jobs:
               git push origin ${BACKPORT_BRANCH_NAME}
 
               gh pr create --base ${BRANCH_NAME} \
+                           --head ${BACKPORT_BRANCH_NAME} \
                            --title "${BACKPORT_PR_TITLE_PREFIX} backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
-                           --body "${PR_BODY}"
+                           --body "${PR_BODY}" &
+              pids="$pids $!"
+          done
+
+          # Wait for all background processes
+          for pid in $pids; do
+              wait $pid
           done
