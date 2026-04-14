@@ -26,9 +26,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Setup Go environment
-      if: ${{ inputs.client_type == 'go' }}
-      uses: vdaas/vald/.github/actions/setup-go@main
+    # Go is installed by default.
+    # - name: Setup Go environment
+    #   if: ${{ inputs.client_type == 'go' }}
+    #   uses: vdaas/vald/.github/actions/setup-go@main
     - name: Setup Node environment
       if: ${{ inputs.client_type == 'node' }}
       uses: vdaas/vald-client-ci/.github/actions/setup-node@main
