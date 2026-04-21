@@ -54,7 +54,7 @@ jobs:
             jq --arg oid "${GITHUB_SHA}" '.[] | select(.mergeCommit.oid == $oid)' > ${FETCHED_GITHUB_INFO_PATH}
           cat ${FETCHED_GITHUB_INFO_PATH}
 
-          PR_NUM=$(cat ${FETCHED_GITHUB_INFO_PATH} | jq -r --arg REGEX "${DEPS_UPDATE_PR_TITLE_REGEX}" 'select(.title | test($REGEX)) | .number')
+          PR_NUM=$(jq -r --arg REGEX "${DEPS_UPDATE_PR_TITLE_REGEX}" 'select(.title | test($REGEX)) | .number' ${FETCHED_GITHUB_INFO_PATH})
           echo "PR_NUM=${PR_NUM}" | tee -a $GITHUB_OUTPUT
           echo "${GITHUB_SHA}"
       - name: Get all release branches
@@ -70,16 +70,14 @@ jobs:
         env:
           RELEASE_BRANCHES: ${{ steps.get_branch.outputs.RELEASE_BRANCHES }}
         run: |
-          PR_TITLE=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".title"`
-          PR_BODY=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".body"`
-          PR_NUM=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".number"`
-          PR_BRANCH_NAME=`cat $FETCHED_GITHUB_INFO_PATH | jq -r ".headRefName"`
+          eval "$(jq -r '"PR_TITLE=\(.title | @sh) PR_BODY=\(.body | @sh) PR_NUM=\(.number | @sh) PR_BRANCH_NAME=\(.headRefName | @sh)"' ${FETCHED_GITHUB_INFO_PATH})"
 
           if [ -f ${FETCHED_GITHUB_INFO_PATH} ]; then
             rm -rf ${FETCHED_GITHUB_INFO_PATH}
           fi
           echo "${PR_NUM} ${PR_TITLE}: ${PR_BODY}"
 
+          pids=()
           for BRANCH_NAME in ${RELEASE_BRANCHES}; do
               BACKPORT_BRANCH_NAME="${BACKPORT_BRANCH_NAME_PREFIX}/${BRANCH_NAME}/${PR_BRANCH_NAME}"   # e.g) backport/release/vx.x/{current branch name}
 
@@ -92,9 +90,17 @@ jobs:
 
               # Force cherry-pick. The conflicts will be modified within the backport PR.
               git cherry-pick ${GITHUB_SHA} || (git add -A && git cherry-pick --continue --no-edit)
-              git push origin ${BACKPORT_BRANCH_NAME}
+              (
+                  git push origin ${BACKPORT_BRANCH_NAME}
 
-              gh pr create --base ${BRANCH_NAME} \
-                           --title "${BACKPORT_PR_TITLE_PREFIX} backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
-                           --body "${PR_BODY}"
+                  gh pr create --base ${BRANCH_NAME} \
+                               --head ${BACKPORT_BRANCH_NAME} \
+                               --title "${BACKPORT_PR_TITLE_PREFIX} backport PR #${PR_NUM} to ${BRANCH_NAME} for ${PR_TITLE}" \
+                               --body "${PR_BODY}"
+              ) &
+              pids+=($!)
+          done
+
+          for pid in "${pids[@]}"; do
+              wait "${pid}" || exit 1
           done
